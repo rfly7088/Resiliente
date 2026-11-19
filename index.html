@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FBF8FC">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Résiliente">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Résiliente — Your cracks are part of your gold</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* =====================================================
+   RÉSILIENTE — Design system
+   Soft lavender + blush, serif headings, generous space
+   ===================================================== */
+:root{
+  --bg:#FBF8FC; --card:#FFFFFF; --ink:#1C1B1F; --muted:#7A7385; --faint:#BDB5C8; --line:#ECE6F2;
+  --p1:#C9B6E4; --p2:#B39DDB; --k1:#F8C8DC; --k2:#F4B6C9; --deep:#5B3F8C; --soft:#F4EEF9;
+  --mint:#CBEBDD; --peach:#FBD9C4; --sky:#CFE4F6; --gold:#D9B77A;
+  --navbg:rgba(255,255,255,.88);
+  --shadow:0 12px 32px -14px rgba(91,63,140,.20),0 2px 6px rgba(91,63,140,.05);
+  --r:24px;
+  --serif:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+  --sans:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --dk1:#1C1B1F; --dk2:#3A2F45;
+}
+[data-theme=dark]{
+  --bg:#17151B; --card:#221F29; --ink:#F1ECF6; --muted:#A59DB2; --faint:#5B5568; --line:#332E3C;
+  --soft:#2B2634; --deep:#CDBBEF; --navbg:rgba(34,31,41,.9);
+  --shadow:0 12px 32px -14px rgba(0,0,0,.65);
+  --dk1:#2B2634; --dk2:#4C3C5F;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);font-size:15px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;min-height:100vh;transition:background .4s,color .4s}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+input,textarea,select{font:inherit;color:inherit}
+.ic{display:block;flex:none}
+.app{max-width:760px;margin:0 auto;padding:22px 18px 160px}
+.enter{animation:enter .55s cubic-bezier(.2,.7,.2,1) both}
+@keyframes enter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* ---------- Header ---------- */
+.hdr{display:flex;align-items:center;gap:14px;margin:4px 0 18px}
+.avatar{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--p2),var(--k2));color:#fff;
+  font-family:var(--serif);font-size:21px;font-weight:600;flex:none;box-shadow:0 8px 18px -8px rgba(179,157,219,.9)}
+.hmid{flex:1;min-width:0}
+.hmid h1{font-family:var(--serif);font-weight:500;font-size:29px;line-height:1.08;letter-spacing:-.2px}
+.hmid h1 em{font-style:italic;color:var(--deep)}
+.hmid p{font-size:12.5px;color:var(--muted);margin-top:3px}
+.saved{font-size:11.5px;padding:6px 12px;border-radius:99px;background:var(--soft);color:var(--deep);white-space:nowrap;transition:all .5s}
+.saved.pulse{background:var(--k1);color:#7a3355;transform:scale(1.06)}
+
+/* ---------- Chips / pills ---------- */
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.chip{font-size:12px;padding:7px 13px;border-radius:99px;background:var(--card);border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.chip b{color:var(--ink);font-weight:500}
+button.chip{cursor:pointer;transition:.2s}
+button.chip.on{background:var(--p1);border-color:var(--p1);color:#2b1d44}
+.fchips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px}
+.fchips::-webkit-scrollbar{display:none}
+
+/* ---------- Cards ---------- */
+.card{background:var(--card);border-radius:var(--r);padding:22px;box-shadow:var(--shadow);margin-bottom:18px;border:1px solid transparent}
+[data-theme=dark] .card{border-color:var(--line)}
+.eyebrow{font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.card h2{font-family:var(--serif);font-weight:500;font-size:25px;line-height:1.15;margin:4px 0 12px}
+.card h3{font-family:var(--serif);font-weight:500;font-size:20px;margin-bottom:6px}
+.sub{font-size:13px;color:var(--muted)}
+.card.dark{background:linear-gradient(145deg,var(--dk1),var(--dk2));color:#F6F1FA;border-color:transparent}
+.card.dark .eyebrow{color:#CDB9E8}
+.card.dark h2{font-size:31px;color:#fff;margin:8px 0 6px}
+.card.dark .sub{color:#CFC6DA}
+.card.dark .bar{background:rgba(255,255,255,.14)}
+.card.dark .bar i{background:var(--k2)}
+.card.gold{background:linear-gradient(140deg,#FFF9EE,#FBEFF5);}
+[data-theme=dark] .card.gold{background:linear-gradient(140deg,#2d2630,#2a2533)}
+.quote{font-family:var(--serif);font-size:24px;line-height:1.3;font-weight:500;font-style:italic}
+.qauth{font-size:12.5px;color:var(--muted);margin-top:10px;letter-spacing:.02em}
+.sec{display:flex;align-items:baseline;justify-content:space-between;margin:26px 4px 12px}
+.sec h3{font-family:var(--serif);font-size:23px;font-weight:500}
+.empty{text-align:center;color:var(--muted);font-size:13.5px;padding:18px 10px}
+.empty b{display:block;font-family:var(--serif);font-size:20px;font-weight:500;color:var(--ink);margin-bottom:4px}
+.note-small{font-size:12px;color:var(--muted);text-align:center;margin:18px 10px;font-style:italic}
+
+/* ---------- Bars / rings ---------- */
+.bar{height:7px;border-radius:9px;background:var(--soft);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,var(--p2),var(--k2));transition:width 1.1s cubic-bezier(.2,.7,.2,1)}
+.ring{position:relative;display:grid;place-items:center;flex:none}
+.ring svg{transform:rotate(-90deg)}
+.ring .ringfg{transition:stroke-dashoffset 1.2s cubic-bezier(.2,.7,.2,1)}
+.ring .rt{position:absolute;text-align:center;line-height:1.1}
+.ring .rt b{font-family:var(--serif);font-size:24px;font-weight:600;display:block}
+.ring .rt span{font-size:10.5px;color:var(--muted)}
+.row{display:flex;align-items:center;gap:14px}
+.row.sp{justify-content:space-between}
+.grow1{flex:1;min-width:0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(min-width:860px){.cols{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}.cols>.card{margin-bottom:0}.cols+.card,.cols{margin-bottom:18px}}
+
+/* ---------- Forms & buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 20px;border-radius:99px;background:var(--ink);color:var(--bg);font-size:14px;font-weight:500;transition:transform .15s,opacity .2s}
+.btn:active{transform:scale(.97)}
+.btn.pri{background:linear-gradient(135deg,var(--p2),var(--k2));color:#fff}
+.btn.soft{background:var(--soft);color:var(--deep)}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
+.btn.danger{background:transparent;color:#b4445f}
+.btn.sm{padding:7px 14px;font-size:12.5px}
+.btn.block{width:100%}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.field{display:block;margin-bottom:15px}
+.field>span{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+input[type=text],input[type=date],input[type=time],input[type=number],input[type=search],textarea,select{
+  width:100%;padding:12px 15px;border-radius:16px;border:1px solid var(--line);background:var(--bg);outline:none;transition:border .2s,box-shadow .2s}
+input:focus,textarea:focus,select:focus{border-color:var(--p2);box-shadow:0 0 0 4px rgba(179,157,219,.18)}
+textarea{min-height:92px;resize:vertical;line-height:1.5}
+.inline-add{display:flex;gap:8px;margin-top:10px}
+.inline-add input{flex:1}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:8px;border-radius:9px;background:linear-gradient(90deg,var(--p1),var(--k1));outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;border-radius:50%;background:#fff;border:3px solid var(--p2);box-shadow:0 4px 12px rgba(91,63,140,.3);cursor:pointer}
+input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:#fff;border:3px solid var(--p2);cursor:pointer}
+.ticks{display:flex;justify-content:space-between;font-size:11px;color:var(--faint);margin:8px 2px 0}
+.advice{margin-top:16px;padding:14px 16px;border-radius:18px;background:var(--soft);font-size:13.5px;color:var(--ink)}
+.bigval{font-family:var(--serif);font-size:44px;font-weight:500;line-height:1;color:var(--deep)}
+.seg{display:flex;background:var(--soft);border-radius:99px;padding:4px;gap:2px;margin-bottom:18px;overflow-x:auto}
+.seg::-webkit-scrollbar{display:none}
+.seg button{flex:1;padding:9px 14px;border-radius:99px;font-size:13px;color:var(--muted);white-space:nowrap;transition:.25s}
+.seg button.on{background:var(--card);color:var(--deep);font-weight:500;box-shadow:0 2px 10px rgba(91,63,140,.14)}
+.check-row{display:flex;align-items:center;gap:10px;font-size:13.5px;margin-bottom:12px}
+.check-row input{width:18px;height:18px;accent-color:var(--p2)}
+
+/* ---------- Tasks / lists ---------- */
+.chk{width:27px;height:27px;border-radius:50%;border:1.6px solid var(--p2);display:grid;place-items:center;flex:none;color:transparent;transition:all .25s;background:transparent}
+.chk.on{background:linear-gradient(135deg,var(--p2),var(--k2));border-color:transparent;color:#fff}
+.chk.pop{animation:pop .35s}
+/* re-renders after small actions skip entrance animations to stay calm */
+.noanim .enter{animation:none}
+.noanim .chart .draw path.ln{animation:none;stroke-dashoffset:0}
+@keyframes pop{0%{transform:scale(.7)}60%{transform:scale(1.18)}100%{transform:scale(1)}}
+.trow{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px dashed var(--line)}
+.trow:last-child{border-bottom:0}
+.trow .tmain{flex:1;min-width:0;cursor:pointer}
+.ttl{font-size:15px;line-height:1.35}
+.trow.done .ttl{text-decoration:line-through;color:var(--muted)}
+.tmeta{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px;align-items:center}
+.tag{font-size:11px;padding:3px 10px;border-radius:99px;white-space:nowrap}
+.tag.pk{background:var(--k1);color:#7a3355}.tag.pu{background:#E6DCF5;color:#4b3375}
+.tag.mn{background:var(--mint);color:#2f5a49}.tag.sk{background:var(--sky);color:#2f4d68}.tag.pc{background:var(--peach);color:#7a4a2c}
+.tag.soft{background:var(--soft);color:var(--muted)}
+.due{font-size:11.5px;color:var(--muted)}.due.late{color:#b4445f}
+.top{display:flex;align-items:center;gap:14px;padding:9px 0}
+.num{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-family:var(--serif);font-size:18px;font-weight:600;flex:none;color:#4b3375}
+.top:nth-child(1) .num{background:var(--p1)}.top:nth-child(2) .num{background:var(--k1)}.top:nth-child(3) .num{background:var(--sky)}
+.top input{border:0;border-bottom:1.5px dashed var(--faint);border-radius:0;background:transparent;padding:9px 2px;box-shadow:none}
+.top input:focus{border-bottom-color:var(--p2);box-shadow:none}
+.top.done input{text-decoration:line-through;color:var(--muted)}
+.days{display:flex;gap:8px;overflow-x:auto;margin-bottom:14px}
+.day{flex:1;min-width:48px;padding:10px 4px;border-radius:18px;text-align:center;border:1px solid var(--line);font-size:11px;color:var(--muted);transition:.2s}
+.day b{display:block;font-family:var(--serif);font-size:20px;color:var(--ink);font-weight:500}
+.day.on{background:var(--p1);border-color:var(--p1);color:#2b1d44}.day.on b{color:#2b1d44}
+.day i{display:block;height:5px;width:5px;border-radius:50%;background:var(--k2);margin:4px auto 0}
+.day i.none{background:transparent}
+.tdisp{font-family:var(--serif);font-size:58px;font-weight:500;line-height:1;margin:8px 0 14px;font-variant-numeric:tabular-nums}
+.pcard{padding:16px 0;border-bottom:1px dashed var(--line);cursor:pointer}
+.pcard:last-child{border-bottom:0}
+.pcard h4{font-family:var(--serif);font-weight:600;font-size:19px;margin-bottom:3px}
+.pcard p{font-size:13px;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* ---------- Mood / habits ---------- */
+.moods{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.mood{padding:14px 4px 10px;border-radius:20px;text-align:center;font-size:12px;color:#3b3347;border:2px solid transparent;transition:.2s}
+.mood i{display:block;width:26px;height:26px;border-radius:50%;margin:0 auto 7px;background:rgba(255,255,255,.7)}
+.mood.on{border-color:var(--deep);transform:translateY(-2px)}
+.dots{display:flex;gap:6px}
+.dot{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--line);font-size:10px;color:var(--muted);display:grid;place-items:center;transition:.2s}
+.dot.on{background:var(--p2);border-color:var(--p2);color:#fff}
+.dot.today{border-color:var(--p2)}
+.badges{display:flex;flex-wrap:wrap;gap:8px}
+.badge{font-size:12px;padding:7px 13px;border-radius:99px;background:linear-gradient(135deg,#FFF1D6,#FBE1EC);color:#6b4a2a}
+.badge.off{background:var(--soft);color:var(--faint)}
+.legend{display:flex;gap:16px;font-size:11.5px;color:var(--muted);margin-top:8px}
+.legend span::before{content:'';display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--c);margin-right:6px}
+.chart text{font-size:10px;fill:var(--muted);font-family:var(--sans)}
+.chart .draw path.ln{stroke-dasharray:1000;stroke-dashoffset:1000;animation:draw 1.4s ease forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+
+/* ---------- Nav / FAB ---------- */
+.nav{position:fixed;left:50%;transform:translateX(-50%);bottom:max(12px,env(safe-area-inset-bottom));width:min(calc(100% - 24px),560px);
+  background:var(--navbg);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-radius:30px;padding:8px 6px;
+  display:flex;box-shadow:0 14px 40px -14px rgba(91,63,140,.35),0 0 0 1px var(--line);z-index:30}
+.nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 0;font-size:10.5px;color:var(--muted);border-radius:22px;transition:.25s;position:relative}
+.nav button.on{color:var(--deep);font-weight:500}
+.nav button.on::after{content:'';position:absolute;bottom:2px;width:4px;height:4px;border-radius:50%;background:var(--p2)}
+.fab{position:fixed;right:max(18px,calc((100vw - 760px)/2 + 18px));bottom:96px;width:54px;height:54px;border-radius:50%;
+  background:linear-gradient(135deg,var(--p2),var(--k2));color:#fff;display:grid;place-items:center;z-index:29;
+  box-shadow:0 14px 28px -8px rgba(179,157,219,.9);transition:transform .25s}
+.fab:active{transform:scale(.92) rotate(45deg)}
+
+/* ---------- Sheets / overlays ---------- */
+.sheet-bg{position:fixed;inset:0;background:rgba(28,27,31,.5);backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity .3s;z-index:50}
+.sheet-bg.open{opacity:1;pointer-events:auto}
+.sheet{position:absolute;left:50%;bottom:0;transform:translate(-50%,105%);width:min(100%,640px);max-height:92vh;overflow:auto;
+  background:var(--card);border-radius:30px 30px 0 0;padding:10px 22px 34px;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.sheet-bg.open .sheet{transform:translate(-50%,0)}
+.sheet .grab{width:44px;height:5px;border-radius:9px;background:var(--line);margin:4px auto 14px}
+.sheet .sh{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.sheet .sh h2{font-family:var(--serif);font-size:27px;font-weight:500}
+.xbtn{width:34px;height:34px;border-radius:50%;background:var(--soft);display:grid;place-items:center;color:var(--muted)}
+.qgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.qbtn{padding:18px 14px;border-radius:20px;background:var(--soft);text-align:left;display:flex;flex-direction:column;gap:8px;font-size:14px;color:var(--deep);transition:.2s}
+.qbtn:active{transform:scale(.97)}
+.opt{padding:14px 16px;border-radius:18px;border:1.5px solid var(--line);text-align:left;width:100%;transition:.2s;margin-bottom:8px;font-size:14px}
+.opt.on{border-color:var(--p2);background:var(--soft);color:var(--deep);font-weight:500}
+.steps{display:flex;gap:6px;margin-bottom:18px}
+.steps i{flex:1;height:4px;border-radius:9px;background:var(--line)}
+.steps i.on{background:linear-gradient(90deg,var(--p2),var(--k2))}
+.tip{padding:14px 16px;border-radius:18px;background:var(--soft);font-size:12.5px;color:var(--muted);margin-bottom:14px;line-height:1.6}
+.tip b{color:var(--deep);font-weight:600}
+.overlay{position:fixed;inset:0;z-index:70;background:linear-gradient(160deg,#1C1B1F,#3A2F45);color:#fff;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:26px;text-align:center;padding:28px;opacity:0;transition:opacity .6s}
+.overlay.on{opacity:1}
+.overlay h2{font-family:var(--serif);font-size:38px;font-weight:500}
+.overlay p{color:#D3C9DF;max-width:340px}
+.orb{width:180px;height:180px;border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--k1),var(--p2));box-shadow:0 0 90px rgba(201,182,228,.55);transform:scale(.78)}
+.big-step{font-family:var(--serif);font-size:96px;line-height:1;color:var(--k1)}
+.xtop{position:absolute;top:22px;right:22px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.12);display:grid;place-items:center;color:#fff}
+.toast{position:fixed;left:50%;bottom:104px;transform:translate(-50%,20px);background:var(--ink);color:var(--bg);padding:11px 20px;border-radius:99px;
+  font-size:13px;opacity:0;pointer-events:none;transition:.4s;z-index:80;max-width:88vw;text-align:center}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.cf{position:fixed;top:-14px;width:8px;height:13px;border-radius:2px;z-index:99;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(108vh) rotate(540deg);opacity:.9}}
+
+/* ---------- Splash / onboarding ---------- */
+.splash{position:fixed;inset:0;z-index:95;background:linear-gradient(160deg,#FBF8FC,#F6E6F0 60%,#E6DCF5);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:10px;text-align:center;transition:opacity .9s;color:#1C1B1F}
+[data-theme=dark] .splash{background:linear-gradient(160deg,#17151B,#2A2233);color:#F1ECF6}
+.splash.out{opacity:0;pointer-events:none}
+.splash h1{font-family:var(--serif);font-size:54px;font-weight:500;letter-spacing:.01em;animation:enter 1.2s both}
+.splash p{font-family:var(--serif);font-style:italic;font-size:20px;color:var(--muted);animation:enter 1.6s .3s both}
+.splash .gold-line{width:84px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);animation:enter 1.4s .15s both}
+.onboard{position:fixed;inset:0;z-index:90;background:var(--bg);overflow:auto;display:grid;place-items:center;padding:24px}
+.onboard .box{width:min(100%,420px);text-align:center}
+.onboard h1{font-family:var(--serif);font-weight:500;font-size:44px}
+.onboard .tg{font-family:var(--serif);font-style:italic;font-size:19px;color:var(--muted);margin:4px 0 28px}
+.onboard .avatar{margin:0 auto 20px;width:72px;height:72px;font-size:30px}
+.onboard .field{text-align:left}
+.hide{display:none!important}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div id="app" class="app"><div id="view"></div></div>
+<nav class="nav hide" id="nav" aria-label="Main"></nav>
+<button class="fab hide" id="fab" data-a="quick" aria-label="Quick actions"></button>
+<div class="sheet-bg" id="sheetBg"><div class="sheet" id="sheet" role="dialog" aria-modal="true"></div></div>
+<div id="overlayRoot"></div>
+<div class="toast" id="toast"></div>
+<input type="file" id="importFile" accept="application/json" class="hide">
+<div class="splash" id="splash"><div class="gold-line"></div><h1>Résiliente</h1><p>Your cracks are part of your gold.</p><div class="gold-line"></div></div>
+<div class="onboard hide" id="onboard"></div>
+<script>
+/* =====================================================
+   RÉSILIENTE — "Your cracks are part of your gold."
+   A private, offline companion. Everything lives in localStorage.
+   Structure:  1 utils · 2 data & seed · 3 components · 4 pages
+               5 sheets/forms · 6 overlays · 7 events · 8 init
+   ===================================================== */
+(function(){
+'use strict';
+
+/* ---------- 1. Utilities ---------- */
+const KEY='resiliente.v1';
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const uid=()=>Math.random().toString(36).slice(2,10);
+const pad=n=>String(n).padStart(2,'0');
+const ds=(d=new Date())=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;   // local YYYY-MM-DD
+const fromDs=s=>{const [y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)};
+const addDays=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
+const dsOff=n=>ds(addDays(new Date(),n));
+const diffDays=s=>Math.round((fromDs(s)-fromDs(ds()))/864e5);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const clamp=(n,a,b)=>Math.min(b,Math.max(a,n));
+const wd=d=>d.toLocaleDateString('en-US',{weekday:'short'});
+const fmtLong=d=>d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
+const fmtShort=s=>fromDs(s).toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+const weekStart=d=>{const x=new Date(d);x.setHours(0,0,0,0);x.setDate(x.getDate()-((x.getDay()+6)%7));return x};
+const dayRange=(a,b)=>{const out=[];for(let d=new Date(a);ds(d)<=ds(b);d=addDays(d,1))out.push(ds(d));return out};
+const toMin=t=>{const [h,m]=(t||'0:0').split(':').map(Number);return h*60+m};
+const sum=a=>a.reduce((x,y)=>x+y,0);
+const avg=a=>a.length?sum(a)/a.length:0;
+
+/* ---------- 2. Data ---------- */
+const MOODS=[{v:1,l:'Heavy',c:'#D9CCF0'},{v:2,l:'Low',c:'#CFE4F6'},{v:3,l:'Okay',c:'#CBEBDD'},{v:4,l:'Good',c:'#FBD9C4'},{v:5,l:'Radiant',c:'#F8C8DC'}];
+const GOAL_CATS=['Career / Finance','Health','Personal Finance','Self-Healing','Learning','Hobbies'];
+const TASK_TYPES=['Closing','Report','Reconciliation','Audit','Payment','Other'];
+const PRIO={urgent:{label:'Urgent',cls:'pk',rank:0},important:{label:'Important',cls:'pu',rank:1},later:{label:'Can wait',cls:'mn',rank:2}};
+const MUSIC_MOODS=['Focus','Calm','Workout Energy'];
+const QUOTE_CATS=['Identity','Purpose','Strength','Healing','Focus & Work','Calm','Affirmation'];
+const DEFAULT_PROMPTS=['How am I feeling today?','What can I let go of?','What am I grateful for?'];
+const PROMPT_POOL=[...DEFAULT_PROMPTS,'What did my body need today?','What is one thing I handled better than I expected?','What am I carrying that isn’t mine?','Where did I feel most like myself?','What would I say to a friend who felt the way I do?','What boundary would protect my peace this week?','What small joy did I notice?','What is asking for my attention, gently?'];
+
+// Curated quotes — only widely cited attributions. "Unknown" where the source is unclear; affirmations are original.
+const QUOTES=[
+["Identity","Nothing can dim the light which shines from within.","Maya Angelou"],
+["Identity","Owning our story and loving ourselves through that process is the bravest thing that we’ll ever do.","Brené Brown"],
+["Identity","Courage starts with showing up and letting ourselves be seen.","Brené Brown"],
+["Identity","Knowing others is intelligence; knowing yourself is true wisdom.","Lao Tzu"],
+["Identity","The only journey is the one within.","Rainer Maria Rilke"],
+["Identity","The curious paradox is that when I accept myself just as I am, then I can change.","Carl Rogers"],
+["Identity","The privilege of a lifetime is to become who you truly are.","Carl Jung"],
+["Identity","You are a child of the universe, no less than the trees and the stars; you have a right to be here.","Max Ehrmann"],
+["Purpose","He who has a why to live can bear almost any how.","Friedrich Nietzsche"],
+["Purpose","When we are no longer able to change a situation, we are challenged to change ourselves.","Viktor Frankl"],
+["Purpose","Tell me, what is it you plan to do with your one wild and precious life?","Mary Oliver"],
+["Purpose","Not all those who wander are lost.","J.R.R. Tolkien"],
+["Purpose","Live the questions now.","Rainer Maria Rilke"],
+["Purpose","What you seek is seeking you.","Rumi"],
+["Purpose","A journey of a thousand miles begins with a single step.","Lao Tzu"],
+["Strength","You may encounter many defeats, but you must not be defeated.","Maya Angelou"],
+["Strength","Still I rise.","Maya Angelou"],
+["Strength","The impediment to action advances action. What stands in the way becomes the way.","Marcus Aurelius"],
+["Strength","Waste no more time arguing about what a good man should be. Be one.","Marcus Aurelius"],
+["Strength","Vulnerability is not winning or losing; it’s having the courage to show up and be seen when we have no control over the outcome.","Brené Brown"],
+["Strength","I learned that courage was not the absence of fear, but the triumph over it.","Nelson Mandela"],
+["Strength","Fall seven times, stand up eight.","Japanese proverb"],
+["Healing","The wound is the place where the Light enters you.","Rumi"],
+["Healing","Almost everything will work again if you unplug it for a few minutes, including you.","Anne Lamott"],
+["Healing","Talk to yourself like someone you love.","Brené Brown"],
+["Healing","No mud, no lotus.","Thich Nhat Hanh"],
+["Healing","Feelings come and go like clouds in a windy sky. Conscious breathing is my anchor.","Thich Nhat Hanh"],
+["Healing","The soul always knows what to do to heal itself. The challenge is to silence the mind.","Caroline Myss"],
+["Healing","Healing doesn’t mean the damage never existed. It means the damage no longer controls our lives.","Unknown"],
+["Focus & Work","It is not that we have a short time to live, but that we waste a lot of it.","Seneca"],
+["Focus & Work","We suffer more often in imagination than in reality.","Seneca"],
+["Focus & Work","Do every act of your life as though it were the very last act of your life.","Marcus Aurelius"],
+["Focus & Work","Nature does not hurry, yet everything is accomplished.","Lao Tzu"],
+["Focus & Work","An investment in knowledge pays the best interest.","Benjamin Franklin"],
+["Focus & Work","You could leave life right now. Let that determine what you do and say and think.","Marcus Aurelius"],
+["Focus & Work","Wherever you are, be all there.","Jim Elliot"],
+["Calm","Do you have the patience to wait until your mud settles and the water is clear?","Lao Tzu"],
+["Calm","Be patient toward all that is unsolved in your heart.","Rainer Maria Rilke"],
+["Calm","Within you there is a stillness and a sanctuary to which you can retreat at any time.","Hermann Hesse"],
+["Calm","Silence is the language of God; all else is poor translation.","Rumi"],
+["Calm","Smile, breathe and go slowly.","Thich Nhat Hanh"],
+["Calm","Quiet the mind, and the soul will speak.","Ma Jaya Sati Bhagavati"],
+// Original affirmations (kintsugi / Résiliente themed)
+["Affirmation","My cracks are not flaws to hide. They are where my gold shows.","Original"],
+["Affirmation","I can be tender and strong at the same time.","Original"],
+["Affirmation","I don’t have to earn rest. I am allowed to pause.","Original"],
+["Affirmation","I am healing at the pace my heart can trust.","Original"],
+["Affirmation","One honest, small step is still a step.","Original"],
+["Affirmation","I can feel everything and still choose my next kind action.","Original"],
+["Affirmation","My worth is not measured by my output.","Original"],
+["Affirmation","I take up space gently, and I take up space fully.","Original"],
+["Affirmation","What broke me open also taught me how to hold others with care.","Original"],
+["Affirmation","I return to myself, again and again, and that is enough.","Original"]
+];
+
+const TEMPLATES=[
+ {title:'Read 12 books this year',cat:'Hobbies',why:'Reading is where I feel most like myself.',target:'12 books finished',months:12,ms:['3 books finished','6 books finished','9 books finished','12 books finished'],habit:'Read 15 minutes'},
+ {title:'Exercise 3x a week',cat:'Health',why:'Moving my body clears my head and steadies my mood.',target:'3 workouts a week for 8 weeks',months:2,ms:['Schedule 3 workout slots in my calendar','Complete 2 weeks in a row','Complete 4 weeks in a row','Complete 8 weeks'],habit:'Exercise'},
+ {title:'Complete a certification',cat:'Career / Finance',why:'I want to grow my expertise and open doors on my own terms.',target:'Pass the exam',months:6,ms:['Choose the certification and exam date','Gather study materials','Finish half of the syllabus','Take a practice exam','Pass the exam'],habit:'Study 30 minutes'},
+ {title:'6-month emergency fund',cat:'Personal Finance',why:'Financial safety lets me choose from calm, not fear.',target:'6 months of expenses saved',months:12,ms:['Calculate my monthly essentials','Save 1 month','Save 3 months','Save 6 months'],habit:'Move savings on payday'},
+ {title:'Journal for 30 days',cat:'Self-Healing',why:'Writing helps me hear what my heart is actually saying.',target:'30 days of journaling',months:1,ms:['First 7 days','First 14 days','21 days','30 days'],habit:'Journaling'}
+];
+
+const defaults=()=>({v:1,profile:null,theme:null,energy:{},schedule:[],top:{},tasks:[],notes:[],dumps:[],journal:[],moods:[],
+  goals:[],habits:[],challenges:[],books:[],music:[],quotes:[],identity:{values:[],vision:'',affirmations:[],sample:false},
+  focus:[],resets:[],reviews:{}});
+
+let S=defaults();
+// UI state (not persisted)
+const ui={page:'today',plan:'tasks',grow:'goals',range:'week',taskFilter:'All',taskView:'list',selDay:ds(),showDone:false,
+  noteQ:'',noteTag:'',quoteCat:'All',musicMood:'All',prompts:DEFAULT_PROMPTS.slice(),anim:true};
+
+let memoryOnly=false;
+function load(){
+  try{
+    const raw=localStorage.getItem(KEY);
+    if(raw){const o=JSON.parse(raw);S=Object.assign(defaults(),o);S.identity=Object.assign(defaults().identity,o.identity||{});}
+  }catch(e){memoryOnly=true}
+}
+function save(){
+  try{if(!memoryOnly)localStorage.setItem(KEY,JSON.stringify(S))}catch(e){memoryOnly=true}
+  const el=$('#saved');
+  if(el){el.textContent=memoryOnly?'Not saved':'Saved ✓';el.classList.add('pulse');setTimeout(()=>el.classList.remove('pulse'),900)}
+}
+
+function seedQuotes(){S.quotes=QUOTES.map(q=>({id:uid(),cat:q[0],text:q[1],author:q[2],fav:false,custom:false}))}
+function defaultSchedule(){
+  return [['Morning routine','06:30','08:30'],['Admin & email','08:30','10:00'],['Deep work','10:00','11:30'],['Meetings','11:30','12:30'],
+    ['Lunch & a walk','12:30','13:30'],['Meetings & follow-ups','13:30','15:30'],['Reports & reconciliation','15:30','17:30'],
+    ['Personal time','17:30','20:30'],['Wind down','20:30','22:30']].map(([label,start,end])=>({id:uid(),label,start,end}));
+}
+function seedSample(){
+  const T=o=>({id:uid(),cat:'Work',prio:'important',due:'',type:'',done:false,doneAt:null,created:ds(),sample:true,...o});
+  S.tasks=[
+    T({title:'Submit monthly closing report',prio:'urgent',due:dsOff(1),type:'Closing'}),
+    T({title:'Approve vendor payment run',prio:'urgent',due:dsOff(2),type:'Payment'}),
+    T({title:'Bank reconciliation — October',due:dsOff(4),type:'Reconciliation'}),
+    T({title:'Prepare documents for the external audit',due:dsOff(7),type:'Audit'}),
+    T({title:'Reply to budget variance questions',prio:'later',due:dsOff(5),type:'Report'}),
+    T({title:'Plan a quiet Sunday reset',cat:'Personal',prio:'later',due:dsOff(3)}),
+    T({title:'Book a dentist appointment',cat:'Personal',prio:'later',due:dsOff(6)}),
+    T({title:'Update cash flow forecast',done:true,doneAt:dsOff(-1),due:dsOff(-1),type:'Report'})
+  ];
+  S.top[ds()]=[{id:uid(),text:'Finish the month-end closing checklist',done:false,sample:true},{id:uid(),text:'A 30-minute walk after work',done:false,sample:true},{id:uid(),text:'Read 15 pages',done:false,sample:true}];
+  S.notes=[
+    {id:uid(),title:'Closing checklist — order of steps',body:'1. Accruals review\n2. Intercompany matching\n3. Bank recs\n4. Variance notes\n5. Manager sign-off',tags:['procedure','closing'],pinned:true,created:ds(),sample:true},
+    {id:uid(),title:'A lesson from my manager',body:'Lead with the headline number, then tell the story behind it. People remember the story.',tags:['lesson'],pinned:false,created:ds(),sample:true},
+    {id:uid(),title:'Idea: monthly variance template',body:'One page: top 3 variances, cause, action, owner. Keep it simple enough to finish in 20 minutes.',tags:['idea'],pinned:false,created:ds(),sample:true},
+    {id:uid(),title:'Decision: reconciliations on Tuesday mornings',body:'Quieter inbox, fresher mind. Protect this block.',tags:['decision'],pinned:false,created:ds(),sample:true}];
+  S.dumps=['Did I send the revised numbers to procurement?','I need a new notebook','Call mom this weekend'].map(t=>({id:uid(),text:t,created:ds(),sample:true}));
+  S.journal=[{id:uid(),date:dsOff(-1),sample:true,answers:{'How am I feeling today?':'Tired but proud. Today was loud, and I still kept my afternoon block.','What can I let go of?':'The need to answer every message right away.','What am I grateful for?':'A quiet walk and a warm cup of tea.'}}];
+  const m=[3,2,3,4,3,4],e=[4,3,5,6,5,6];
+  S.moods=m.map((v,i)=>({date:dsOff(i-6),v,note:'',sample:true}));
+  m.forEach((_,i)=>{S.energy[dsOff(i-6)]={v:e[i],sample:true}});
+  const log=a=>Object.fromEntries(a.map(o=>[dsOff(-o),true]));
+  S.habits=[['Exercise',[1,2,4,5,6]],['Reading',[1,2,3,5]],['Drinking water',[1,2,3,4,5,6]],['Journaling',[1,3]],['Enough sleep',[1,2,4]]]
+    .map(([name,l])=>({id:uid(),name,log:log(l),sample:true}));
+  S.focus=[{date:dsOff(-1),min:50,sample:true},{date:dsOff(-2),min:25,sample:true},{date:dsOff(-4),min:75,sample:true}];
+  S.books=[
+    {id:uid(),title:'Man’s Search for Meaning',author:'Viktor Frankl',pages:184,read:46,finished:false,quotes:['He who has a why to live can bear almost any how.'],log:[{date:dsOff(-1),pages:14},{date:dsOff(-3),pages:20},{date:dsOff(-5),pages:12}],sample:true},
+    {id:uid(),title:'Gift from the Sea',author:'Anne Morrow Lindbergh',pages:128,read:128,finished:true,quotes:[],log:[{date:dsOff(-9),pages:30}],sample:true}];
+  S.music=[['Weightless','Marconi Union','Calm'],['Experience','Ludovico Einaudi','Focus'],['Nuvole Bianche','Ludovico Einaudi','Calm'],['Don’t Stop Me Now','Queen','Workout Energy']]
+    .map(([title,artist,mood])=>({id:uid(),title,artist,mood,sample:true}));
+  const dl=months=>{const d=new Date();d.setMonth(d.getMonth()+months);return ds(d)};
+  S.goals=[
+    {id:uid(),title:'Read 12 books in a year',cat:'Hobbies',why:'Books are where I feel most at home.',target:'12 books finished',deadline:dl(12),progress:0,celebrated:false,created:ds(),sample:true,notes:[],
+      milestones:[['3 books finished',true],['6 books finished',false],['9 books finished',false],['12 books finished',false]].map(([text,done])=>({id:uid(),text,done}))},
+    {id:uid(),title:'6-month emergency fund',cat:'Personal Finance',why:'Financial safety lets me choose from calm, not fear.',target:'6 months of expenses saved',deadline:dl(6),progress:0,celebrated:false,created:ds(),sample:true,
+      notes:[{date:dsOff(-3),text:'Set up an automatic transfer on payday. Small and steady.'}],
+      milestones:[['Calculate my monthly essentials',true],['Save 1 month',false],['Save 3 months',false],['Save 6 months',false]].map(([text,done])=>({id:uid(),text,done}))}];
+  S.identity={values:['Calm','Integrity','Growth','Depth'],vision:'A life that feels spacious: meaningful work, honest rest, and a heart that heals without hurry.',
+    affirmations:['I can be tender and strong at the same time.','I am healing at the pace my heart can trust.'],sample:true};
+  S.schedule=defaultSchedule();
+}
+function clearSample(){
+  ['tasks','notes','dumps','journal','moods','habits','focus','books','music','goals'].forEach(k=>S[k]=S[k].filter(x=>!x.sample));
+  Object.keys(S.energy).forEach(d=>{if(S.energy[d].sample)delete S.energy[d]});
+  Object.keys(S.top).forEach(d=>{S.top[d]=S.top[d].filter(x=>!x.sample)});
+  const ids=new Set(S.habits.map(h=>h.id));S.challenges=S.challenges.filter(c=>ids.has(c.habitId));
+  if(S.identity.sample)S.identity={values:[],vision:'',affirmations:[],sample:false};
+  save();
+}
+
+/* ---------- Derived data ---------- */
+function activityDates(){
+  const s=new Set();
+  S.tasks.forEach(t=>t.done&&t.doneAt&&s.add(t.doneAt));
+  S.habits.forEach(h=>Object.keys(h.log||{}).forEach(d=>h.log[d]&&s.add(d)));
+  S.journal.forEach(j=>s.add(j.date));S.moods.forEach(m=>s.add(m.date));S.focus.forEach(f=>s.add(f.date));
+  S.resets.forEach(r=>s.add(r.date));S.books.forEach(b=>(b.log||[]).forEach(l=>s.add(l.date)));
+  return s;
+}
+function streakOf(has){let d=new Date();if(!has(ds(d)))d=addDays(d,-1);let n=0;while(has(ds(d))){n++;d=addDays(d,-1)}return n}
+const streak=()=>{const a=activityDates();return streakOf(d=>a.has(d))};
+const habitStreak=h=>streakOf(d=>h.log&&h.log[d]);
+function goalPct(g){if(g.milestones.length)return Math.round(g.milestones.filter(m=>m.done).length/g.milestones.length*100);return g.progress||0}
+function todayTasksStat(){
+  const t=ds();const done=S.tasks.filter(x=>x.done&&x.doneAt===t).length;
+  const open=S.tasks.filter(x=>!x.done&&x.due&&x.due<=t).length;
+  return {done,total:done+open,pct:(done+open)?done/(done+open)*100:0};
+}
+function nextDeadline(){
+  const t=ds();return S.tasks.filter(x=>!x.done&&x.due&&x.due>=t).sort((a,b)=>a.due.localeCompare(b.due))[0];
+}
+function dueLabel(d){
+  const n=diffDays(d);
+  if(n<0)return `Overdue · ${-n}d`;if(n===0)return 'Today';if(n===1)return 'Tomorrow';
+  return n<7?wd(fromDs(d)):fmtShort(d);
+}
+function dailyQuote(){
+  const q=S.quotes;if(!q.length)return null;
+  const day=Math.floor((fromDs(ds())-new Date(new Date().getFullYear(),0,0))/864e5);
+  return q[day%q.length];
+}
+function energyInfo(v){
+  if(v<=2)return['Low','A very low day. Choose one tiny priority, protect your breaks, and be kind to yourself.'];
+  if(v<=4)return['Gentle','Gentle day. One small priority and a proper break.'];
+  if(v<=6)return['Steady','Steady day. Two or three priorities, with short pauses between them.'];
+  if(v<=8)return['Strong','Good energy. A lovely window for deep work, and still take your breaks.'];
+  return['Bright','High energy. Spend it on what matters most, and don’t borrow from tomorrow.'];
+}
+function badges(){
+  const hs=S.habits.map(habitStreak),done=S.challenges.filter(c=>c.done);
+  return [
+    ['First week',Math.max(0,...hs)>=7||done.some(c=>c.days>=7)],['21-day rhythm',done.some(c=>c.days>=21)],['30-day keeper',done.some(c=>c.days>=30)],
+    ['Goal celebrated',S.goals.some(g=>g.celebrated)],['Wrote to heal',S.journal.length>=5],['Reader',S.books.some(b=>b.finished)]];
+}
+
+/* ---------- 3. Components ---------- */
+const IC={
+ today:'<circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/>',
+ plan:'<rect x="4" y="4" width="16" height="16" rx="5"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/>',
+ heal:'<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>',
+ grow:'<path d="M12 21v-9"/><path d="M12 12c0-4 2.5-6 7-6 0 4-2.5 6-7 6z"/><path d="M12 15c0-3-2-5-6-5 0 3.5 2 5 6 5z"/>',
+ week:'<path d="M5 20V11M12 20V5M19 20v-6"/>',
+ plus:'<path d="M12 5v14M5 12h14"/>', x:'<path d="M6 6l12 12M18 6L6 18"/>', check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+ trash:'<path d="M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13"/>', edit:'<path d="M4 20h4L19 9l-4-4L4 16v4z"/>',
+ star:'<path d="M12 4l2.4 5 5.4.7-4 3.8 1 5.4-4.8-2.7-4.8 2.7 1-5.4-4-3.8 5.4-.7z"/>', pin:'<path d="M9 4h6l-1 6 3 3H7l3-3-1-6zM12 13v7"/>',
+ play:'<path d="M8 5l11 7-11 7z"/>', pause:'<path d="M8 5v14M16 5v14"/>', reset:'<path d="M4 12a8 8 0 1 0 3-6.2M4 4v4h4"/>',
+ wind:'<path d="M3 9h11a3 3 0 1 0-3-3M3 15h15a3 3 0 1 1-3 3M3 12h7"/>', note:'<path d="M6 4h9l4 4v12H6z"/><path d="M9 12h7M9 16h5"/>',
+ smile:'<circle cx="12" cy="12" r="8.5"/><path d="M8.5 14.5c1 1.5 2.2 2 3.5 2s2.5-.5 3.5-2M9 9.5v.5M15 9.5v.5"/>',
+ moon:'<path d="M19 14.5A7.5 7.5 0 0 1 9.5 5 7.5 7.5 0 1 0 19 14.5z"/>', book:'<path d="M5 5a2 2 0 0 1 2-1h12v15H7a2 2 0 0 0-2 2zM5 19V5"/>',
+ music:'<path d="M9 18V6l10-2v12"/><circle cx="7" cy="18" r="2.2"/><circle cx="17" cy="16" r="2.2"/>', arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>',
+ back:'<path d="M19 12H5M11 6l-6 6 6 6"/>', cal:'<rect x="4" y="5" width="16" height="15" rx="4"/><path d="M4 10h16M9 3v4M15 3v4"/>',
+ flag:'<path d="M6 21V4M6 5h11l-2 4 2 4H6"/>', dots:'<circle cx="6" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="18" cy="12" r="1"/>',
+ gold:'<path d="M12 3l2 5 5 1-4 3.5 1 5.5-4-2.8L8 18l1-5.5L5 9l5-1z"/>', clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+ wave:'<path d="M3 12c2-4 4-4 6 0s4 4 6 0 4-4 6 0"/>'
+};
+const icon=(n,s=22,sw=1.5)=>`<svg class="ic" width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[n]||''}</svg>`;
+
+// Animated progress ring (SVG). Values animate in after render via animateIn().
+function ring(pct,size=96,main='',sub='',w=9,c1='#B39DDB',c2='#F4B6C9'){
+  const r=(size-w)/2,C=2*Math.PI*r,id='g'+uid(),to=C*(1-clamp(pct,0,100)/100);
+  return `<div class="ring" style="width:${size}px;height:${size}px"><svg width="${size}" height="${size}">
+    <defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></linearGradient></defs>
+    <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="var(--soft)" stroke-width="${w}"/>
+    <circle class="ringfg" cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="url(#${id})" stroke-width="${w}" stroke-linecap="round"
+      stroke-dasharray="${C}" stroke-dashoffset="${ui.anim?C:to}" data-to="${to}"/></svg>
+    <div class="rt"><b>${main}</b><span>${sub}</span></div></div>`;
+}
+const bar=pct=>`<div class="bar"><i style="width:${ui.anim?0:clamp(pct,0,100)}%" data-w="${clamp(pct,0,100)}"></i></div>`;
+function animateIn(){
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    $$('.ringfg').forEach(e=>e.style.strokeDashoffset=e.dataset.to);
+    $$('.bar i[data-w]').forEach(e=>e.style.width=e.dataset.w+'%');
+  }));
+}
+
+// Smooth line chart. series:[{name,color,vals:[n|null]}]. labels: x axis text.
+function lineChart(series,labels,{h=150,min=1,max=5}={}){
+  const W=320,L=22,R=8,T=10,B=22,n=labels.length;if(!n)return '';
+  const x=i=>L+(n===1?(W-L-R)/2:i*(W-L-R)/(n-1)),y=v=>T+(1-(v-min)/(max-min))*(h-T-B);
+  let g='';for(let v=min;v<=max;v+=(max-min>5?2:1))g+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" stroke-dasharray="3 5"/><text x="${L-7}" y="${y(v)+3}" text-anchor="end">${v}</text>`;
+  const step=n>9?Math.ceil(n/6):1;
+  const xl=labels.map((l,i)=>i%step===0?`<text x="${x(i)}" y="${h-5}" text-anchor="middle">${esc(l)}</text>`:'').join('');
+  const paths=series.map(s=>{
+    const pts=s.vals.map((v,i)=>v==null?null:[x(i),y(v)]).filter(Boolean);
+    if(!pts.length)return '';
+    let d=`M${pts[0][0]},${pts[0][1]}`;
+    for(let i=0;i<pts.length-1;i++){
+      const p0=pts[i-1]||pts[i],p1=pts[i],p2=pts[i+1],p3=pts[i+2]||p2;
+      d+=` C${p1[0]+(p2[0]-p0[0])/6},${p1[1]+(p2[1]-p0[1])/6} ${p2[0]-(p3[0]-p1[0])/6},${p2[1]-(p3[1]-p1[1])/6} ${p2[0]},${p2[1]}`;
+    }
+    const dots=pts.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="3.6" fill="var(--card)" stroke="${s.color}" stroke-width="2"/>`).join('');
+    return `<path class="ln" d="${d}" fill="none" stroke="${s.color}" stroke-width="2.6" stroke-linecap="round" pathLength="1000"/>${dots}`;
+  }).join('');
+  return `<svg class="chart" viewBox="0 0 ${W} ${h}" width="100%" role="img" aria-label="Line chart">${g}${xl}<g class="draw">${paths}</g></svg>`;
+}
+
+// Page header with greeting, date, saved pill
+function header(){
+  const hr=new Date().getHours(),g=hr<12?'Good morning':hr<18?'Good afternoon':'Good evening';
+  const p=S.profile||{name:'You',initials:'R'};
+  return `<header class="hdr enter"><button class="avatar" data-a="go" data-p="me" aria-label="Open Me">${esc(p.initials)}</button>
+    <div class="hmid"><h1>${g}, <em>${esc(p.name)}</em></h1><p>${fmtLong(new Date())}</p></div>
+    <span class="saved" id="saved">${memoryOnly?'Not saved':'Saved ✓'}</span></header>`;
+}
+function pageTitle(t,s){
+  const p=S.profile||{initials:'R'};
+  return `<header class="hdr enter"><div class="hmid"><h1>${t}</h1>${s?`<p>${s}</p>`:''}</div><span class="saved" id="saved">${memoryOnly?'Not saved':'Saved ✓'}</span>
+    <button class="avatar" style="width:42px;height:42px;font-size:18px" data-a="go" data-p="me" aria-label="Open Me">${esc(p.initials)}</button></header>`;
+}
+const seg=(items,cur,act)=>`<div class="seg">${items.map(([k,l])=>`<button class="${cur===k?'on':''}" data-a="${act}" data-k="${k}">${l}</button>`).join('')}</div>`;
+const empty=(t,s)=>`<div class="empty"><b>${t}</b>${s||''}</div>`;
+
+/* ---------- 4a. Today ---------- */
+function getTop(){
+  const t=ds();if(!S.top[t])S.top[t]=[];
+  while(S.top[t].length<3)S.top[t].push({id:uid(),text:'',done:false});
+  return S.top[t].slice(0,3);
+}
+function rightNowCard(){
+  const now=new Date(),m=now.getHours()*60+now.getMinutes();
+  const sch=S.schedule.slice().sort((a,b)=>toMin(a.start)-toMin(b.start));
+  const cur=sch.find(x=>m>=toMin(x.start)&&m<toMin(x.end)),next=sch.find(x=>toMin(x.start)>m);
+  let title,sub,pct=0;
+  if(cur){const tot=toMin(cur.end)-toMin(cur.start),left=toMin(cur.end)-m;pct=(tot-left)/tot*100;
+    title=`${esc(cur.label)} · ${cur.start}–${cur.end}`;const h=Math.floor(left/60);sub=`${h?h+'h ':''}${left%60}m left${next?` · Next: ${esc(next.label)}`:''}`}
+  else if(next){title=`Free time · until ${next.start}`;sub=`Next: ${esc(next.label)} at ${next.start}`}
+  else{title='The day is yours';sub='Nothing scheduled. Rest is also a plan.'}
+  return `<section class="card dark enter"><div class="row sp"><span class="eyebrow">Right now</span><button class="btn sm ghost" style="color:#E6DCF5;border-color:rgba(255,255,255,.22)" data-a="edit-schedule">Edit day</button></div>
+    <h2>${title}</h2><p class="sub" style="margin-bottom:16px">${sub}</p>${bar(pct)}</section>`;
+}
+function pageToday(){
+  const nd=nextDeadline(),en=S.energy[ds()],ev=en?en.v:5,[elab,eadv]=energyInfo(ev);
+  const top=getTop(),doneN=top.filter(x=>x.done&&x.text).length,q=dailyQuote(),st=todayTasksStat(),sk=streak();
+  return header()+`
+  <div class="chips enter">
+    <span class="chip">${nd?`Next deadline · <b>${dueLabel(nd.due)}</b>`:'No deadlines ahead'}</span>
+    <span class="chip">Streak · <b>${sk} day${sk===1?'':'s'}</b></span>
+    <span class="chip">Energy <b>${ev}/10</b> · ${elab}</span></div>
+
+  <section class="card enter"><span class="eyebrow">Energy check-in</span>
+    <div class="row sp" style="margin:6px 0 14px"><h2 style="margin:0">How’s your energy?</h2><span class="bigval" id="evalue">${ev}</span></div>
+    <input type="range" min="1" max="10" value="${ev}" id="energy" aria-label="Energy level">
+    <div class="ticks"><span>1 · drained</span><span>10 · bright</span></div>
+    <div class="advice" id="eadvice">${eadv}</div></section>
+
+  ${rightNowCard()}
+
+  <section class="card enter"><div class="row sp"><div><span class="eyebrow">Today</span><h2 style="margin-bottom:0">Top 3 priorities</h2></div><span class="chip"><b id="topcount">${doneN}/3</b> done</span></div>
+    <div style="margin-top:8px">${top.map((t,i)=>`<div class="top ${t.done?'done':''}"><span class="num">${i+1}</span>
+      <input type="text" value="${esc(t.text)}" placeholder="${['What matters most today?','Something that feeds you','One small, kind thing'][i]}" data-a="top-text" data-id="${t.id}" aria-label="Priority ${i+1}">
+      <button class="chk ${t.done?'on':''}" data-a="top-toggle" data-id="${t.id}" aria-label="Mark done">${icon('check',15,2.4)}</button></div>`).join('')}</div></section>
+
+  ${q?`<section class="card gold enter"><span class="eyebrow">Today’s words</span><p class="quote" style="margin-top:10px">“${esc(q.text)}”</p>
+    <p class="qauth">— ${esc(q.author)}</p></section>`:''}
+
+  <div class="grid2 enter" style="margin-bottom:18px">
+    ${[['task','plus','+ Task'],['note','note','+ Note'],['reset','wind','Stress Reset'],['mood','smile','Mood Check-in']].map(([a,i,l])=>`<button class="qbtn" data-a="q-${a}">${icon(i,22)}${l}</button>`).join('')}</div>
+
+  <section class="card enter"><div class="row"><div style="flex:none">${ring(st.pct,92,`${st.done}/${st.total||0}`,'tasks')}</div>
+    <div class="grow1"><span class="eyebrow">Your day so far</span><h3 style="margin-top:4px">${st.total?(st.done===st.total?'Everything for today is done.':`${st.total-st.done} still to go, no rush.`):'A clear day.'}</h3>
+    <p class="sub">${sk?`You’ve shown up ${sk} day${sk===1?'':'s'} in a row.`:'Every small action counts. Start anywhere.'}</p></div></div></section>`;
+}
+
+/* ---------- 4b. Plan ---------- */
+const PRESETS=[25,50];
+function timerCard(){
+  const T=ui.timer,m=Math.floor(T.left/60),s=T.left%60;
+  return `<section class="card" id="timerCard"><div class="row sp"><span class="eyebrow">${T.mode==='focus'?'Focus timer':'Gentle break'}</span>
+    <div class="row" style="gap:6px">${PRESETS.map(p=>`<button class="chip ${T.len===p&&T.mode==='focus'?'on':''}" data-a="timer-len" data-n="${p}">${p}m</button>`).join('')}</div></div>
+    <div class="tdisp" id="tdisp">${pad(m)}:${pad(s)}</div>
+    <div class="row"><button class="btn pri" data-a="timer-go">${icon(T.running?'pause':'play',16,2)}${T.running?'Pause':'Start'}</button>
+    <button class="btn ghost" data-a="timer-reset">${icon('reset',16,2)}Reset</button></div>
+    <p class="sub" style="margin-top:12px">${T.mode==='focus'?'One thing at a time. A short break will remind you when it’s time.':'Stand up, drink water, look out of a window.'}</p></section>`;
+}
+function taskRow(t){
+  const late=!t.done&&t.due&&diffDays(t.due)<0,p=PRIO[t.prio]||PRIO.important;
+  return `<div class="trow ${t.done?'done':''}"><button class="chk ${t.done?'on':''}" data-a="task-toggle" data-id="${t.id}" aria-label="Toggle done">${icon('check',15,2.4)}</button>
+    <div class="tmain" data-a="task-edit" data-id="${t.id}"><div class="ttl">${esc(t.title)}</div>
+    <div class="tmeta"><span class="tag ${p.cls}">${p.label}</span><span class="tag ${t.cat==='Work'?'sk':'pc'}">${t.cat}</span>${t.type?`<span class="tag soft">${esc(t.type)}</span>`:''}
+    ${t.due?`<span class="due ${late?'late':''}">${icon('cal',12)} ${dueLabel(t.due)}</span>`:''}</div></div></div>`;
+}
+function plan_tasks(){
+  const open=S.tasks.filter(t=>!t.done),upcoming=open.filter(t=>t.cat==='Work'&&t.due).sort((a,b)=>a.due.localeCompare(b.due)).slice(0,4);
+  const ws=weekStart(new Date()),days=dayRange(ws,addDays(ws,6));
+  let list=S.tasks.filter(t=>ui.showDone||!t.done);
+  if(ui.taskFilter==='Work')list=list.filter(t=>t.cat==='Work');
+  if(ui.taskFilter==='Personal')list=list.filter(t=>t.cat==='Personal');
+  if(ui.taskFilter==='Urgent')list=list.filter(t=>t.prio==='urgent');
+  if(ui.selDay)list=list.filter(t=>t.due===ui.selDay);
+  list.sort((a,b)=>(a.done-b.done)||((PRIO[a.prio]||PRIO.important).rank-(PRIO[b.prio]||PRIO.important).rank)||(a.due||'9').localeCompare(b.due||'9'));
+  const doneCount=S.tasks.filter(t=>t.done).length;
+  return timerCard()+`
+  <section class="card"><span class="eyebrow">Finance deadlines</span><h2>Deadline tracker</h2>
+    ${upcoming.length?upcoming.map(t=>{const n=diffDays(t.due);return `<div class="row sp" style="padding:10px 0;border-bottom:1px dashed var(--line)" data-a="task-edit" data-id="${t.id}">
+      <div class="grow1"><div class="ttl">${esc(t.title)}</div><div class="tmeta">${t.type?`<span class="tag soft">${esc(t.type)}</span>`:''}</div></div>
+      <span class="tag ${n<=1?'pk':n<=4?'pc':'mn'}">${n<0?'Overdue':n===0?'Today':n===1?'Tomorrow':n+' days'}</span></div>`}).join(''):empty('No deadlines ahead','Add a task with a due date to see it here.')}</section>
+
+  <section class="card"><div class="row sp"><div><span class="eyebrow">This week</span><h2 style="margin-bottom:0">Week view</h2></div>${ui.selDay?`<button class="chip" data-a="day-clear">Show all</button>`:''}</div>
+    <div class="days" style="margin-top:14px">${days.map(d=>{const c=open.filter(t=>t.due===d).length;return `<button class="day ${ui.selDay===d?'on':''}" data-a="day-pick" data-d="${d}">${wd(fromDs(d))}<b>${fromDs(d).getDate()}</b><i class="${c?'':'none'}"></i></button>`}).join('')}</div>
+    <div class="fchips">${['All','Work','Personal','Urgent'].map(f=>`<button class="chip ${ui.taskFilter===f?'on':''}" data-a="tfilter" data-k="${f}">${f}</button>`).join('')}</div>
+    ${list.length?list.map(taskRow).join(''):empty('Nothing here','Enjoy the space, or add something gently.')}
+    <div class="row sp" style="margin-top:14px"><button class="btn soft sm" data-a="q-task">${icon('plus',15,2)} Add task</button>
+    ${doneCount?`<button class="chip" data-a="toggle-done">${ui.showDone?'Hide':'Show'} completed (${doneCount})</button>`:''}</div></section>`;
+}
+function plan_notes(){
+  const tags=[...new Set(S.notes.flatMap(n=>n.tags))].sort();
+  let ns=S.notes.filter(n=>{const q=ui.noteQ.toLowerCase();return(!ui.noteTag||n.tags.includes(ui.noteTag))&&(!q||(n.title+' '+n.body+' '+n.tags.join(' ')).toLowerCase().includes(q))});
+  ns.sort((a,b)=>(b.pinned-a.pinned)||b.created.localeCompare(a.created));
+  return `<section class="card"><span class="eyebrow">Memory vault</span><h2>Things worth remembering</h2>
+    <input type="search" id="noteSearch" placeholder="Search notes, tags…" value="${esc(ui.noteQ)}" style="margin-bottom:12px">
+    <div class="fchips">${tags.map(t=>`<button class="chip ${ui.noteTag===t?'on':''}" data-a="ntag" data-k="${esc(t)}">#${esc(t)}</button>`).join('')}</div>
+    <div id="noteList">${notesList(ns)}</div><button class="btn soft sm" style="margin-top:14px" data-a="q-note">${icon('plus',15,2)} New note</button></section>`;
+}
+function notesList(ns){
+  return ns.length?ns.map(n=>`<div class="pcard" data-a="note-edit" data-id="${n.id}"><div class="row sp"><h4>${n.pinned?icon('pin',14,1.8)+' ':''}${esc(n.title)}</h4></div>
+    <p>${esc(n.body)}</p><div class="tmeta">${n.tags.map(t=>`<span class="tag pu">#${esc(t)}</span>`).join('')}</div></div>`).join(''):empty('No notes yet','Figures, procedures, decisions, lessons: keep what matters.');
+}
+function plan_dump(){
+  return `<section class="card"><span class="eyebrow">Brain dump</span><h2>Put it all down here</h2>
+    <p class="sub">Whatever is circling in your head. You can sort it later, or never.</p>
+    <textarea id="dumpText" placeholder="Everything on my mind…" style="margin-top:14px"></textarea>
+    <button class="btn pri" style="margin-top:12px" data-a="dump-add">Let it go</button></section>
+    <section class="card"><h3>Waiting to be sorted</h3>${S.dumps.length?S.dumps.map(d=>`<div class="trow"><div class="tmain" style="cursor:default"><div class="ttl">${esc(d.text)}</div></div>
+      <button class="btn soft sm" data-a="dump-task" data-id="${d.id}">${icon('arrow',14,2)} Task</button><button class="xbtn" data-a="dump-del" data-id="${d.id}" aria-label="Release">${icon('x',14,2)}</button></div>`).join(''):empty('A clear mind','Nothing waiting here.')}</section>`;
+}
+function pagePlan(){
+  return pageTitle('Plan','Gentle structure for the busy days')+seg([['tasks','Tasks'],['notes','Notes'],['dump','Brain Dump']],ui.plan,'plan-seg')+
+    `<div class="enter">${ui.plan==='tasks'?plan_tasks():ui.plan==='notes'?plan_notes():plan_dump()}</div>`;
+}
+
+/* ---------- 4c. Heal ---------- */
+function moodChartHtml(days=14){
+  const ds_=dayRange(addDays(new Date(),-(days-1)),new Date());
+  const mv=ds_.map(d=>{const m=S.moods.find(x=>x.date===d);return m?m.v:null});
+  const ev=ds_.map(d=>S.energy[d]?Math.max(1,Math.min(5,S.energy[d].v/2)):null);
+  const has=mv.some(v=>v!=null);
+  return has?lineChart([{name:'Mood',color:'#B39DDB',vals:mv},{name:'Energy',color:'#F4B6C9',vals:ev}],ds_.map(d=>fromDs(d).getDate()))+
+    `<div class="legend"><span style="--c:#B39DDB">Mood (1–5)</span><span style="--c:#F4B6C9">Energy (scaled)</span></div>`:empty('Your mood story starts here','Check in once and a soft line will appear.');
+}
+function pageHeal(){
+  const todayJ=S.journal.find(j=>j.date===ds()&&j.draftless);
+  const tm=S.moods.find(m=>m.date===ds());
+  return pageTitle('Healing Space','Slow down. Nothing here is graded.')+`<div class="enter">
+  <section class="card"><span class="eyebrow">Stress reset · at your desk</span><h2>Take a quiet minute</h2>
+    <div class="grid2"><button class="qbtn" data-a="q-reset">${icon('wind',22)}60-second breathing</button><button class="qbtn" data-a="q-ground">${icon('wave',22)}Grounding 5-4-3-2-1</button></div></section>
+
+  <section class="card"><span class="eyebrow">Mood</span><h2>${tm?`Today you felt ${MOODS[tm.v-1].l.toLowerCase()}`:'How are you, really?'}</h2>
+    <div class="moods">${MOODS.map(m=>`<button class="mood ${tm&&tm.v===m.v?'on':''}" style="background:${m.c}" data-a="mood-set" data-v="${m.v}"><i></i>${m.l}</button>`).join('')}</div>
+    <div style="margin-top:18px">${moodChartHtml()}</div></section>
+
+  <section class="card"><div class="row sp"><div><span class="eyebrow">Reflective journal</span><h2 style="margin-bottom:0">Write what’s true</h2></div>
+    <button class="btn soft sm" data-a="shuffle-prompts">Shuffle</button></div>
+    <div style="margin-top:16px">${ui.prompts.map((p,i)=>`<label class="field"><span style="font-family:var(--serif);font-size:18px;color:var(--ink)">${esc(p)}</span>
+      <textarea data-a="jdraft" data-i="${i}" placeholder="Write as much or as little as you like…">${esc((ui.draft||{})[p]||'')}</textarea></label>`).join('')}</div>
+    <button class="btn pri block" data-a="journal-save">Save today’s entry</button></section>
+
+  <section class="card"><h3>Past entries</h3>${S.journal.length?S.journal.slice().sort((a,b)=>b.date.localeCompare(a.date)).slice(0,8).map(j=>`<div class="pcard" data-a="journal-view" data-id="${j.id}">
+    <h4>${fromDs(j.date).toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'short'})}</h4><p>${esc(Object.values(j.answers).find(Boolean)||'')}</p></div>`).join(''):empty('Your pages will gather here')}</section>
+  <p class="note-small">This app is a companion, not a replacement for professional support.</p></div>`;
+}
+
+/* ---------- 4d. Grow ---------- */
+function goalCard(g){
+  const p=goalPct(g);
+  return `<div class="pcard" data-a="goal-open" data-id="${g.id}"><div class="row sp"><h4>${esc(g.title)}</h4><b style="font-family:var(--serif);font-size:21px;color:var(--deep)">${p}%</b></div>${bar(p)}
+    <div class="tmeta"><span class="tag pu">${esc(g.cat)}</span>${g.deadline?`<span class="due">by ${fmtShort(g.deadline)}</span>`:''}${g.celebrated?'<span class="tag pk">Celebrated ✦</span>':''}</div></div>`;
+}
+function grow_goals(){
+  const act=S.goals.filter(g=>!g.celebrated),done=S.goals.filter(g=>g.celebrated);
+  return `<section class="card"><span class="eyebrow">Goal builder</span><h2>What are you growing toward?</h2>
+    <p class="sub" style="margin-bottom:14px">Small, honest goals. You can change them whenever life changes.</p><button class="btn pri" data-a="wiz-new">+ Create New Goal</button></section>
+    <section class="card"><h3>Active goals</h3>${act.length?act.map(goalCard).join(''):empty('No active goals yet','Start with a template below, or build your own.')}</section>
+    ${done.length?`<section class="card"><h3>Celebrated</h3>${done.map(goalCard).join('')}</section>`:''}
+    <section class="card"><span class="eyebrow">Templates</span><h3 style="margin:4px 0 12px">Begin with an idea</h3>
+    ${TEMPLATES.map((t,i)=>`<button class="opt" data-a="wiz-tpl" data-i="${i}"><b>${esc(t.title)}</b><br><span class="sub">${esc(t.cat)}</span></button>`).join('')}</section>`;
+}
+function challengeOf(h){return S.challenges.find(c=>c.habitId===h.id&&!c.done)}
+function challengeCount(c){const h=S.habits.find(x=>x.id===c.habitId);if(!h)return 0;
+  return dayRange(fromDs(c.start),addDays(fromDs(c.start),c.days-1)).filter(d=>h.log[d]).length}
+function grow_habits(){
+  const days=dayRange(addDays(new Date(),-6),new Date());
+  return `<section class="card"><div class="row sp"><div><span class="eyebrow">Daily rhythm</span><h2 style="margin-bottom:0">Habits</h2></div><button class="btn soft sm" data-a="habit-new">${icon('plus',15,2)} New</button></div>
+    ${S.habits.length?S.habits.map(h=>{const c=challengeOf(h),sk=habitStreak(h);
+      return `<div class="pcard" style="cursor:default"><div class="row sp"><h4>${esc(h.name)}</h4><span class="chip">Streak · <b>${sk}</b></span></div>
+      <div class="dots" style="margin:10px 0">${days.map(d=>`<button class="dot ${h.log[d]?'on':''} ${d===ds()?'today':''}" data-a="habit-day" data-id="${h.id}" data-d="${d}" aria-label="${d}">${wd(fromDs(d))[0]}</button>`).join('')}</div>
+      ${c?`<div class="sub" style="margin-bottom:6px">${c.days}-day challenge · ${challengeCount(c)}/${c.days} days</div>${bar(challengeCount(c)/c.days*100)}`
+        :`<button class="btn ghost sm" data-a="chal-new" data-id="${h.id}">Start a challenge</button>`}
+      <div style="margin-top:10px"><button class="btn danger sm" data-a="habit-del" data-id="${h.id}">Remove</button></div></div>`}).join(''):empty('No habits yet','Pick one tiny habit to begin.')}</section>
+    <section class="card"><span class="eyebrow">Quiet milestones</span><h3 style="margin:4px 0 12px">Badges</h3><div class="badges">${badges().map(([l,on])=>`<span class="badge ${on?'':'off'}">${on?'✦ ':''}${l}</span>`).join('')}</div></section>`;
+}
+function grow_reading(){
+  const wk=dayRange(weekStart(new Date()),new Date()),pg=sum(S.books.flatMap(b=>(b.log||[]).filter(l=>wk.includes(l.date)).map(l=>l.pages)));
+  return `<section class="card"><div class="row sp"><div><span class="eyebrow">Reading log</span><h2 style="margin-bottom:0">Your books</h2></div><button class="btn soft sm" data-a="book-new">${icon('plus',15,2)} Add</button></div>
+    <p class="sub" style="margin:8px 0">${pg} page${pg===1?'':'s'} read this week.</p>
+    ${S.books.length?S.books.map(b=>{const p=b.pages?Math.round(b.read/b.pages*100):0;return `<div class="pcard" data-a="book-open" data-id="${b.id}"><div class="row sp"><h4>${esc(b.title)}</h4><span class="sub">${b.read}/${b.pages}</span></div>
+      <p style="-webkit-line-clamp:1">${esc(b.author||'')}${b.finished?' · finished ✦':''}</p>${bar(p)}</div>`}).join(''):empty('Your shelf is waiting','Add the book on your nightstand.')}</section>`;
+}
+function grow_music(){
+  const l=S.music.filter(m=>ui.musicMood==='All'||m.mood===ui.musicMood);
+  return `<section class="card"><div class="row sp"><div><span class="eyebrow">Music notes</span><h2 style="margin-bottom:0">Sound for the moment</h2></div><button class="btn soft sm" data-a="music-new">${icon('plus',15,2)} Add</button></div>
+    <div class="fchips" style="margin-top:14px">${['All',...MUSIC_MOODS].map(m=>`<button class="chip ${ui.musicMood===m?'on':''}" data-a="mmood" data-k="${m}">${m}</button>`).join('')}</div>
+    ${l.length?l.map(m=>`<div class="trow"><div class="tmain" style="cursor:default"><div class="ttl">${esc(m.title)}</div><div class="tmeta"><span class="sub">${esc(m.artist||'')}</span><span class="tag ${m.mood==='Calm'?'sk':m.mood==='Focus'?'pu':'pk'}">${m.mood}</span></div></div>
+      <button class="xbtn" data-a="music-del" data-id="${m.id}" aria-label="Remove">${icon('x',14,2)}</button></div>`).join(''):empty('Nothing here yet','Save songs for focus, calm, or movement.')}</section>`;
+}
+function pageGrow(){
+  return pageTitle('Grow','Slow, steady, and yours')+seg([['goals','Goals'],['habits','Habits'],['reading','Reading'],['music','Music']],ui.grow,'grow-seg')+
+    `<div class="enter">${ui.grow==='goals'?grow_goals():ui.grow==='habits'?grow_habits():ui.grow==='reading'?grow_reading():grow_music()}</div>`;
+}
+
+/* ---------- 4e. Week ---------- */
+function rangeDays(r){const t=new Date();if(r==='today')return[ds(t)];if(r==='week')return dayRange(weekStart(t),t);return dayRange(new Date(t.getFullYear(),t.getMonth(),1),t)}
+function stats(days){
+  const set=new Set(days),done=S.tasks.filter(t=>t.done&&set.has(t.doneAt)).length,open=S.tasks.filter(t=>!t.done&&t.due&&set.has(t.due)).length;
+  const hab=S.habits.map(h=>({name:h.name,n:days.filter(d=>h.log[d]).length,streak:habitStreak(h)}));
+  return {done,total:done+open,hab,checkins:sum(hab.map(h=>h.n)),focus:sum(S.focus.filter(f=>set.has(f.date)).map(f=>f.min)),
+    pages:sum(S.books.flatMap(b=>(b.log||[]).filter(l=>set.has(l.date)).map(l=>l.pages))),
+    journals:S.journal.filter(j=>set.has(j.date)).length,notes:S.notes.filter(n=>set.has(n.created)).length,resets:S.resets.filter(r=>set.has(r.date)).length};
+}
+function insights(){
+  const wk=stats(dayRange(weekStart(new Date()),new Date())),out=[];
+  const best=wk.hab.slice().sort((a,b)=>b.n-a.n)[0];
+  if(best&&best.n>=2)out.push(`You were most consistent with ${best.name.toLowerCase()} this week. Well done.`);
+  if(wk.done)out.push(`You completed ${wk.done} task${wk.done===1?'':'s'} this week. Steady progress, even on the heavy days.`);
+  if(wk.focus>=25)out.push(`You gave ${wk.focus} minutes of deep focus this week. That’s real, quiet work.`);
+  if(wk.journals)out.push('You made space to write this week. Listening to yourself matters.');
+  if(wk.resets)out.push('You paused for a reset when you needed one. That is a skill, not a luxury.');
+  if(!out.length)out.push('Every small step counts. Begin wherever you are, and let it be enough.');
+  return out.slice(0,3);
+}
+function recommendations(){
+  const wk=dayRange(weekStart(new Date()),new Date()),st=stats(wk),has=c=>S.goals.some(g=>g.cat===c&&!g.celebrated),out=[];
+  const hn=n=>(st.hab.find(h=>h.name.toLowerCase().includes(n))||{n:0}).n;
+  if((hn('read')>=3||st.pages>=30)&&!has('Hobbies'))out.push(['You’ve been reading consistently. Want to set a reading goal this month?',0]);
+  if(hn('exerc')>=3&&!has('Health'))out.push(['Movement is becoming a rhythm. Want a gentle exercise goal to hold it?',1]);
+  if((hn('journal')>=2||st.journals>=3)&&!has('Self-Healing'))out.push(['Writing seems to be helping. Want to try a 30-day journaling goal?',4]);
+  return out;
+}
+function pageWeek(){
+  const r=ui.range,days=rangeDays(r),st=stats(days),act=S.goals.filter(g=>!g.celebrated),wkKey=ds(weekStart(new Date())),rv=S.reviews[wkKey]||{};
+  const label=r==='today'?'today':r==='week'?'this week':'this month',rec=recommendations(),sk=streak();
+  const prom=['What went well?','What drained my energy?','What’s my focus for next week?'];
+  return pageTitle('Week','What you’ve done, held gently')+seg([['today','Today'],['week','This Week'],['month','This Month']],r,'range')+`<div class="enter">
+  <section class="card"><span class="eyebrow">What I’ve done</span>
+    <div class="row" style="margin-top:12px"><div>${ring(st.pct||(st.total?st.done/st.total*100:0),104,`${st.done}/${st.total}`,'tasks')}</div>
+    <div class="grow1"><h3>${st.done?`${st.done} task${st.done===1?'':'s'} completed ${label}`:`A quiet ${r==='today'?'day':r==='week'?'week':'month'} so far`}</h3><p class="sub">Streak · ${sk} day${sk===1?'':'s'}</p></div></div>
+    <div class="grid3" style="margin-top:18px">${[[st.focus,'focus min'],[st.pages,'pages read'],[st.checkins,'habit check-ins'],[st.journals,'journal entries'],[st.notes,'notes saved'],[st.resets,'resets']].map(([n,l])=>`<div style="background:var(--soft);border-radius:18px;padding:14px 8px;text-align:center"><b style="font-family:var(--serif);font-size:26px;font-weight:600;display:block">${n}</b><span class="sub" style="font-size:11px">${l}</span></div>`).join('')}</div></section>
+
+  <section class="card"><span class="eyebrow">Habits</span><h3 style="margin:4px 0 12px">Consistency</h3>
+    ${st.hab.length?st.hab.map(h=>`<div style="margin-bottom:14px"><div class="row sp" style="margin-bottom:6px"><span>${esc(h.name)}</span><span class="sub">${h.n}/${days.length} days · streak ${h.streak}</span></div>${bar(h.n/days.length*100)}</div>`).join(''):empty('No habits yet')}</section>
+
+  <section class="card"><span class="eyebrow">Mood & energy</span><div style="margin-top:10px">${moodChartHtml(r==='month'?new Date().getDate():7)}</div></section>
+
+  <section class="card gold"><span class="eyebrow">A gentle note</span>${insights().map(t=>`<p class="quote" style="font-size:21px;margin-top:12px">${esc(t)}</p>`).join('')}</section>
+
+  <section class="card"><span class="eyebrow">Goals progress</span>
+    ${act.length?act.map(g=>`<div style="margin:14px 0" data-a="goal-open" data-id="${g.id}"><div class="row sp" style="margin-bottom:6px"><span>${esc(g.title)}</span><b style="color:var(--deep)">${goalPct(g)}%</b></div>${bar(goalPct(g))}</div>`).join(''):empty('No active goals','Create one when you’re ready.')}
+    <button class="btn pri" style="margin-top:6px" data-a="wiz-new">+ Create New Goal</button>
+    ${rec.map(([t,i])=>`<div class="advice" style="margin-top:14px">${esc(t)}<div style="margin-top:10px"><button class="btn soft sm" data-a="wiz-tpl" data-i="${i}">Yes, let’s look</button></div></div>`).join('')}</section>
+
+  <section class="card"><span class="eyebrow">Weekly review</span><h2>Look back, kindly</h2>
+    <p class="sub" style="margin-bottom:16px">This week: ${wkStats()}</p>
+    ${prom.map((p,i)=>`<label class="field"><span style="font-family:var(--serif);font-size:18px;color:var(--ink)">${p}</span><textarea id="rv${i}" placeholder="Take your time…">${esc((rv.a||[])[i]||'')}</textarea></label>`).join('')}
+    ${act.length?`<div class="tip"><b>Goals, without guilt.</b> ${act.map(g=>`${esc(g.title)} is at ${goalPct(g)}%`).join('; ')}. Progress isn’t a straight line. Keep going, adjust the pace, or pause. All of these are allowed.</div>`:''}
+    <button class="btn pri block" data-a="review-save">${rv.date?'Update review':'Save review'}</button></section></div>`;
+}
+function wkStats(){const s=stats(dayRange(weekStart(new Date()),new Date()));return `${s.done} task${s.done===1?'':'s'} done, ${s.focus} focus minutes, ${s.checkins} habit check-ins, ${s.journals} journal entr${s.journals===1?'y':'ies'}.`}
+
+/* ---------- 4f. Me ---------- */
+function pageMe(){
+  const p=S.profile,id=S.identity;
+  let qs=S.quotes;if(ui.quoteCat==='Favorites')qs=qs.filter(q=>q.fav);else if(ui.quoteCat!=='All')qs=qs.filter(q=>q.cat===ui.quoteCat);
+  return `<div class="enter"><button class="btn ghost sm" data-a="go" data-p="today" style="margin-bottom:14px">${icon('back',15,2)} Back</button>
+  <section class="card gold" style="text-align:center;padding:34px 22px"><div class="avatar" style="margin:0 auto 14px;width:68px;height:68px;font-size:28px;display:grid;place-items:center">${esc(p.initials)}</div>
+    <h2 style="font-size:32px;margin-bottom:2px">${esc(p.name)}</h2><div style="width:70px;height:2px;margin:14px auto;background:linear-gradient(90deg,transparent,var(--gold),transparent)"></div>
+    <p class="quote" style="font-size:23px">Your cracks are part of your gold.</p>
+    <button class="btn pri" style="margin-top:20px" data-a="reminder">I need a reminder</button></section>
+
+  <section class="card"><div class="row sp"><div><span class="eyebrow">Identity</span><h2 style="margin-bottom:0">Who I am & what I’m working toward</h2></div></div>
+    <div style="margin-top:16px"><div class="sub" style="margin-bottom:6px">Values</div><div class="tmeta">${id.values.length?id.values.map(v=>`<span class="tag pu">${esc(v)}</span>`).join(''):'<span class="sub">Add what guides you.</span>'}</div></div>
+    <div style="margin-top:16px"><div class="sub" style="margin-bottom:6px">Vision</div><p class="quote" style="font-size:20px">${id.vision?esc(id.vision):'<span class="sub" style="font-style:normal;font-family:var(--sans);font-size:14px">Write the life you’re growing toward.</span>'}</p></div>
+    <div style="margin-top:16px"><div class="sub" style="margin-bottom:6px">Affirmations</div>${id.affirmations.map(a=>`<p style="padding:8px 0;border-bottom:1px dashed var(--line)">${esc(a)}</p>`).join('')||'<span class="sub">Add words you want to hear.</span>'}</div>
+    <button class="btn soft sm" style="margin-top:16px" data-a="identity-edit">${icon('edit',14,2)} Edit</button></section>
+
+  <section class="card"><div class="row sp"><div><span class="eyebrow">Curated for you</span><h2 style="margin-bottom:0">Quotes & affirmations</h2></div><button class="btn soft sm" data-a="quote-new">${icon('plus',15,2)} Add</button></div>
+    <div class="fchips" style="margin-top:14px">${['All','Favorites',...QUOTE_CATS].map(c=>`<button class="chip ${ui.quoteCat===c?'on':''}" data-a="qcat" data-k="${c}">${c}</button>`).join('')}</div>
+    ${qs.length?qs.map(q=>`<div class="pcard" style="cursor:default"><p class="quote" style="font-size:20px;display:block;-webkit-line-clamp:unset">“${esc(q.text)}”</p>
+      <div class="row sp" style="margin-top:8px"><span class="qauth" style="margin:0">— ${esc(q.author)} · ${esc(q.cat)}</span>
+      <span class="row" style="gap:4px"><button class="xbtn" style="${q.fav?'background:var(--k1);color:#7a3355':''}" data-a="quote-fav" data-id="${q.id}" aria-label="Favorite">${icon('star',15,1.8)}</button>
+      <button class="xbtn" data-a="quote-edit" data-id="${q.id}" aria-label="Edit">${icon('edit',15,1.8)}</button></span></div></div>`).join(''):empty('Nothing here yet')}</section>
+
+  <section class="card"><span class="eyebrow">Settings</span>
+    <div class="row sp" style="padding:14px 0;border-bottom:1px dashed var(--line)"><span>Dark mode</span><button class="btn soft sm" data-a="theme">${document.documentElement.dataset.theme==='dark'?'Switch to light':'Switch to dark'}</button></div>
+    <div class="row sp" style="padding:14px 0;border-bottom:1px dashed var(--line)"><span>Name & initials</span><button class="btn soft sm" data-a="profile-edit">Edit</button></div>
+    <div class="row sp" style="padding:14px 0;border-bottom:1px dashed var(--line)"><span>Daily schedule</span><button class="btn soft sm" data-a="edit-schedule">Edit</button></div>
+    <div class="row sp" style="padding:14px 0;border-bottom:1px dashed var(--line)"><span>Backup (JSON)</span><span class="row" style="gap:8px"><button class="btn soft sm" data-a="export">Export</button><button class="btn soft sm" data-a="import">Import</button></span></div>
+    <div class="row sp" style="padding:14px 0"><span>Sample data</span><button class="btn danger sm" data-a="clear-sample">Clear sample data</button></div>
+    <p class="sub" style="margin-top:6px">Everything stays on this device. No account, no server.</p>
+    <button class="btn danger sm" style="margin-top:10px" data-a="erase">Erase everything</button></section></div>`;
+}
+
+/* ---------- 5. Sheets & forms ---------- */
+function openSheet(title,html){
+  $('#sheet').innerHTML=`<div class="grab"></div><div class="sh"><h2>${title}</h2><button class="xbtn" data-a="sheet-close" aria-label="Close">${icon('x',16,2)}</button></div>${html}`;
+  $('#sheetBg').classList.add('open');
+}
+function closeSheet(){$('#sheetBg').classList.remove('open');ui.edit=null}
+const val=id=>{const e=document.getElementById(id);return e?e.value.trim():''};
+const fld=(label,inner)=>`<label class="field"><span>${label}</span>${inner}</label>`;
+const inp=(id,v='',ph='',type='text')=>`<input type="${type}" id="${id}" value="${esc(v)}" placeholder="${esc(ph)}">`;
+const sel=(id,opts,cur)=>`<select id="${id}">${opts.map(o=>{const[v,l]=Array.isArray(o)?o:[o,o];return `<option value="${esc(v)}" ${v===cur?'selected':''}>${esc(l)}</option>`}).join('')}</select>`;
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('on'),2400)}
+function confetti(n=46){const cols=['#C9B6E4','#F8C8DC','#D9B77A','#CBEBDD','#FBD9C4','#CFE4F6'];
+  for(let i=0;i<n;i++){const e=document.createElement('i');e.className='cf';e.style.left=Math.random()*100+'vw';e.style.background=cols[i%cols.length];
+    e.style.animationDuration=(1.8+Math.random()*1.6)+'s';e.style.animationDelay=Math.random()*.4+'s';document.body.appendChild(e);setTimeout(()=>e.remove(),4200)}}
+
+function sheetQuick(){
+  openSheet('Quick actions',`<div class="qgrid">${[['task','plus','Task'],['note','note','Note'],['dump','arrow','Brain dump'],['reset','wind','Stress Reset'],['mood','smile','Mood Check-in'],['journal','heal','Journal']]
+    .map(([a,i,l])=>`<button class="qbtn" data-a="q-${a}">${icon(i,22)}${l}</button>`).join('')}</div>`);
+}
+function sheetTask(id,pre={}){
+  const t=id?S.tasks.find(x=>x.id===id):null,v=t||{title:pre.title||'',cat:'Work',prio:'important',due:'',type:''};
+  ui.edit={kind:'task',id,dump:pre.dump};
+  openSheet(t?'Edit task':'New task',fld('Task',inp('f_title',v.title,'What needs doing?'))+
+   `<div class="grid2">${fld('Category',sel('f_cat',['Work','Personal'],v.cat))}${fld('Priority',sel('f_prio',Object.entries(PRIO).map(([k,p])=>[k,p.label]),v.prio))}</div>
+    <div class="grid2">${fld('Due date',inp('f_due',v.due,'','date'))}${fld('Type (finance)',sel('f_type',[['','None'],...TASK_TYPES],v.type))}</div>
+    <div class="row" style="gap:10px;flex-wrap:wrap"><button class="btn pri" data-a="task-save">Save</button>
+    ${t?`<button class="btn soft" data-a="task-top">Make it a top priority</button><button class="btn danger" data-a="task-del">Delete</button>`:''}</div>`);
+}
+function sheetNote(id){
+  const n=id?S.notes.find(x=>x.id===id):null,v=n||{title:'',body:'',tags:[],pinned:false};ui.edit={kind:'note',id};
+  openSheet(n?'Edit note':'New note',fld('Title',inp('f_title',v.title,'A number, a decision, a lesson…'))+fld('Details',`<textarea id="f_body" placeholder="Write it down so you don’t have to hold it.">${esc(v.body)}</textarea>`)+
+   fld('Tags (comma separated)',inp('f_tags',v.tags.join(', '),'procedure, idea, lesson'))+
+   `<label class="check-row"><input type="checkbox" id="f_pin" ${v.pinned?'checked':''}>Pin to the top</label>
+    <div class="row" style="gap:10px"><button class="btn pri" data-a="note-save">Save</button>${n?'<button class="btn danger" data-a="note-del">Delete</button>':''}</div>`);
+}
+function sheetMood(){
+  const m=S.moods.find(x=>x.date===ds());ui.moodSel=m?m.v:0;
+  openSheet('Mood check-in',`<p class="sub" style="margin-bottom:14px">There’s no right answer. Just notice.</p><div class="moods">${MOODS.map(o=>`<button class="mood ${ui.moodSel===o.v?'on':''}" style="background:${o.c}" data-a="mood-pick" data-v="${o.v}"><i></i>${o.l}</button>`).join('')}</div>
+   <div style="margin-top:16px">${fld('A word or two (optional)',inp('f_note',m?m.note:'','What’s behind this feeling?'))}</div><button class="btn pri block" data-a="mood-save">Save</button>`);
+}
+function schRow(s){return `<div class="srow row" style="margin-bottom:10px;gap:8px"><input type="text" class="sl" value="${esc(s.label)}" placeholder="Activity" style="flex:2">
+  <input type="time" class="ss" value="${s.start}" style="flex:1"><input type="time" class="se" value="${s.end}" style="flex:1"><button class="xbtn" data-a="srow-del" aria-label="Remove row">${icon('x',14,2)}</button></div>`}
+function sheetSchedule(){
+  openSheet('Your day',`<p class="sub" style="margin-bottom:14px">This feeds the “Right now” card on Today.</p><div id="schRows">${S.schedule.slice().sort((a,b)=>toMin(a.start)-toMin(b.start)).map(schRow).join('')}</div>
+   <div class="row" style="gap:10px;margin-top:6px"><button class="btn soft sm" data-a="srow-add">${icon('plus',14,2)} Add block</button><button class="btn pri" data-a="sch-save">Save</button></div>`);
+}
+function sheetQuote(id){
+  const q=id?S.quotes.find(x=>x.id===id):null,v=q||{text:'',author:'',cat:'Identity'};ui.edit={kind:'quote',id};
+  openSheet(q?'Edit quote':'New quote',fld('Words',`<textarea id="f_text">${esc(v.text)}</textarea>`)+fld('Author (or “Unknown”)',inp('f_author',v.author,'Author'))+fld('Category',sel('f_cat',QUOTE_CATS,v.cat))+
+   `<div class="row" style="gap:10px"><button class="btn pri" data-a="quote-save">Save</button>${q?'<button class="btn danger" data-a="quote-del">Delete</button>':''}</div>`);
+}
+function sheetIdentity(){
+  const i=S.identity;
+  openSheet('Who I am',fld('Values (comma separated)',inp('f_values',i.values.join(', '),'Calm, Integrity, Growth'))+fld('Vision',`<textarea id="f_vision" placeholder="The life I’m growing toward…">${esc(i.vision)}</textarea>`)+
+   fld('Affirmations (one per line)',`<textarea id="f_aff" style="min-height:130px">${esc(i.affirmations.join('\n'))}</textarea>`)+`<button class="btn pri block" data-a="identity-save">Save</button>`);
+}
+function sheetProfile(){
+  openSheet('Name & initials',fld('Name',inp('f_name',S.profile.name))+fld('Initials (1–2 letters)',inp('f_ini',S.profile.initials))+`<button class="btn pri block" data-a="profile-save">Save</button>`);
+}
+function sheetHabit(){openSheet('New habit',fld('Habit',inp('f_name','','e.g. Stretch for 10 minutes'))+`<button class="btn pri block" data-a="habit-save">Add habit</button>`)}
+function sheetChallenge(id){
+  const h=S.habits.find(x=>x.id===id);ui.edit={kind:'chal',id};
+  openSheet('Start a challenge',`<p class="sub" style="margin-bottom:14px">${esc(h.name)} · choose a length. Missing a day is okay. You simply keep going.</p>
+   ${[7,21,30].map(n=>`<button class="opt" data-a="chal-start" data-n="${n}"><b>${n} days</b><br><span class="sub">${n===7?'A gentle start':n===21?'Build a rhythm':'Make it part of you'}</span></button>`).join('')}`);
+}
+function sheetBook(id){
+  const b=id?S.books.find(x=>x.id===id):null,v=b||{title:'',author:'',pages:'',read:0,quotes:[]};ui.edit={kind:'book',id};
+  openSheet(b?esc(b.title):'Add a book',(b?'':fld('Title',inp('f_title',''))+fld('Author',inp('f_author','')))+
+   `<div class="grid2">${fld('Total pages',inp('f_pages',v.pages,'','number'))}${fld('Page I’m on',inp('f_read',v.read,'','number'))}</div>
+    ${b?`${fld('Add a favorite quote',`<textarea id="f_quote" placeholder="A line worth keeping…"></textarea>`)}${b.quotes.map(q=>`<p class="quote" style="font-size:18px;margin-bottom:10px">“${esc(q)}”</p>`).join('')}`:''}
+    <div class="row" style="gap:10px"><button class="btn pri" data-a="book-save">Save</button>${b?'<button class="btn danger" data-a="book-del">Remove</button>':''}</div>`);
+}
+function sheetMusic(){openSheet('Add music',fld('Song or playlist',inp('f_title',''))+fld('Artist',inp('f_artist',''))+fld('For which mood?',sel('f_mood',MUSIC_MOODS,'Calm'))+`<button class="btn pri block" data-a="music-save">Save</button>`)}
+function sheetJournal(id){
+  const j=S.journal.find(x=>x.id===id);
+  openSheet(fromDs(j.date).toLocaleDateString('en-GB',{day:'numeric',month:'long'}),Object.entries(j.answers).filter(([,a])=>a).map(([q,a])=>`<h3>${esc(q)}</h3><p style="margin-bottom:16px;white-space:pre-wrap">${esc(a)}</p>`).join('')+`<button class="btn danger sm" data-a="journal-del" data-id="${id}">Delete entry</button>`);
+}
+
+/* Goal detail */
+function sheetGoal(id){
+  const g=S.goals.find(x=>x.id===id),p=goalPct(g);ui.edit={kind:'goal',id};
+  openSheet(esc(g.title),`<div class="tmeta" style="margin-bottom:12px"><span class="tag pu">${esc(g.cat)}</span>${g.deadline?`<span class="due">by ${fmtShort(g.deadline)}</span>`:''}</div>
+   ${g.why?`<p class="quote" style="font-size:19px;margin-bottom:14px">“${esc(g.why)}”</p>`:''}<p class="sub">Target · ${esc(g.target)}</p>
+   <div class="row sp" style="margin:14px 0 6px"><span class="sub">Progress</span><b style="color:var(--deep)">${p}%</b></div>${bar(p)}
+   <h3 style="margin:20px 0 4px">Milestones</h3>${g.milestones.map(m=>`<div class="trow ${m.done?'done':''}"><button class="chk ${m.done?'on':''}" data-a="ms-toggle" data-id="${m.id}">${icon('check',15,2.4)}</button>
+     <div class="tmain" style="cursor:default"><div class="ttl">${esc(m.text)}</div></div><button class="btn soft sm" data-a="ms-task" data-id="${m.id}">→ Task</button></div>`).join('')||'<p class="sub">No milestones yet.</p>'}
+   <h3 style="margin:20px 0 4px">Journey notes</h3>${(g.notes||[]).slice().reverse().map(n=>`<p style="padding:8px 0;border-bottom:1px dashed var(--line)"><span class="due">${fmtShort(n.date)}</span><br>${esc(n.text)}</p>`).join('')}
+   <div class="inline-add"><input type="text" id="f_jn" placeholder="How is this going?"><button class="btn soft sm" data-a="gnote-add">Add</button></div>
+   <div class="row" style="gap:10px;margin-top:22px;flex-wrap:wrap">${!g.celebrated?`<button class="btn pri" data-a="goal-celebrate">${p===100?'Celebrate ✦':'Mark as achieved ✦'}</button>`:'<span class="tag pk">Celebrated ✦</span>'}<button class="btn danger" data-a="goal-del">Delete</button></div>`);
+}
+
+/* Goal wizard (5 steps) */
+function wizOpen(tpl){
+  ui.wiz={step:1,d:{title:'',cat:'',why:'',target:'',deadline:'',ms:[],habit:'',makeHabit:false}};
+  if(tpl){const dl=new Date();dl.setMonth(dl.getMonth()+tpl.months);
+    Object.assign(ui.wiz.d,{title:tpl.title,cat:tpl.cat,why:tpl.why,target:tpl.target,deadline:ds(dl),ms:tpl.ms.map(t=>({id:uid(),text:t,toTask:false})),habit:tpl.habit});ui.wiz.step=2}
+  wizRender();
+}
+function wizCapture(){
+  const w=ui.wiz,d=w.d;
+  if(w.step===2&&$('#w_why'))d.why=val('w_why');
+  if(w.step===3&&$('#w_title')){d.title=val('w_title');d.target=val('w_target');d.deadline=val('w_deadline')}
+  if(w.step===4){if($('#w_habit'))d.habit=val('w_habit');if($('#w_mkh'))d.makeHabit=$('#w_mkh').checked}
+}
+function wizRender(){
+  const w=ui.wiz,d=w.d,s=w.step;let body='',ok=true;
+  if(s===1){body=`<p class="sub" style="margin-bottom:14px">Where would you like to grow?</p>${GOAL_CATS.map(c=>`<button class="opt ${d.cat===c?'on':''}" data-a="wiz-cat" data-k="${esc(c)}">${c}</button>`).join('')}`;ok=!!d.cat}
+  if(s===2)body=`<p class="sub" style="margin-bottom:12px">Your “why” is what carries you on slow days.</p>${fld('Why does this matter to me?',`<textarea id="w_why" placeholder="Because…">${esc(d.why)}</textarea>`)}`;
+  if(s===3){body=`<div class="tip"><b>SMART, gently:</b> Specific · Measurable · Achievable · Relevant · Time-bound. A goal you can picture finishing is easier to begin.</div>
+    ${fld('Goal name',inp('w_title',d.title,'e.g. Read 12 books this year'))}${fld('Measurable target',inp('w_target',d.target,'e.g. 12 books finished'))}${fld('Deadline',inp('w_deadline',d.deadline,'','date'))}`;ok=!!(d.title&&d.target)}
+  if(s===4)body=`<p class="sub" style="margin-bottom:12px">Break it into small steps. Turn any of them into a task.</p>
+    ${d.ms.map(m=>`<div class="trow"><div class="tmain" style="cursor:default"><div class="ttl">${esc(m.text)}</div></div>
+      <button class="chip ${m.toTask?'on':''}" data-a="wiz-mtask" data-id="${m.id}">→ Task</button><button class="xbtn" data-a="wiz-mdel" data-id="${m.id}" aria-label="Remove">${icon('x',14,2)}</button></div>`).join('')}
+    <div class="inline-add"><input type="text" id="w_ms" placeholder="Add a small step"><button class="btn soft sm" data-a="wiz-madd">Add</button></div>
+    <div style="margin-top:18px">${fld('A tiny habit that supports this (optional)',inp('w_habit',d.habit,'e.g. Read 15 minutes'))}<label class="check-row"><input type="checkbox" id="w_mkh" ${d.makeHabit?'checked':''}>Create this as a daily habit</label></div>`;
+  if(s===5)body=`<div class="card gold" style="box-shadow:none;margin:0 0 14px"><span class="eyebrow">${esc(d.cat)}</span><h2>${esc(d.title)}</h2><p class="sub">Target · ${esc(d.target)}${d.deadline?` · by ${fmtShort(d.deadline)}`:''}</p>
+     ${d.why?`<p class="quote" style="font-size:19px;margin-top:10px">“${esc(d.why)}”</p>`:''}</div>
+     <p class="sub">${d.ms.length} milestone${d.ms.length===1?'':'s'}${d.ms.filter(m=>m.toTask).length?` · ${d.ms.filter(m=>m.toTask).length} will become tasks`:''}${d.makeHabit&&d.habit?` · habit “${esc(d.habit)}” will be added`:''}</p>`;
+  openSheet('New goal',`<div class="steps">${[1,2,3,4,5].map(i=>`<i class="${i<=s?'on':''}"></i>`).join('')}</div>${body}
+    <div class="row sp" style="margin-top:20px">${s>1?`<button class="btn ghost" data-a="wiz-back">Back</button>`:'<span></span>'}
+    ${s<5?`<button class="btn pri" data-a="wiz-next">Continue</button>`:`<button class="btn pri" data-a="wiz-save">Save goal</button>`}</div>`);
+}
+function wizSave(){
+  const d=ui.wiz.d;
+  S.goals.push({id:uid(),title:d.title,cat:d.cat,why:d.why,target:d.target,deadline:d.deadline,progress:0,celebrated:false,created:ds(),notes:[],milestones:d.ms.map(m=>({id:m.id,text:m.text,done:false}))});
+  d.ms.filter(m=>m.toTask).forEach(m=>S.tasks.push({id:uid(),title:m.text,cat:'Personal',prio:'later',due:'',type:'',done:false,doneAt:null,created:ds()}));
+  if(d.makeHabit&&d.habit&&!S.habits.some(h=>h.name.toLowerCase()===d.habit.toLowerCase()))S.habits.push({id:uid(),name:d.habit,log:{}});
+  save();closeSheet();ui.page='grow';ui.grow='goals';render(true);toast('Goal saved. One gentle step at a time.');
+}
+
+/* ---------- 6. Overlays (stress reset, reminder) ---------- */
+ui.ovT=[];
+function overlayOpen(html){$('#overlayRoot').innerHTML=`<div class="overlay" id="ov"><button class="xtop" data-a="ov-close" aria-label="Close">${icon('x',18,2)}</button>${html}</div>`;requestAnimationFrame(()=>requestAnimationFrame(()=>{const o=$('#ov');o&&o.classList.add('on')}))}
+function overlayClose(){ui.ovT.forEach(clearTimeout);ui.ovT=[];const o=$('#ov');if(o){o.classList.remove('on');setTimeout(()=>{if(!$('#ov.on'))$('#overlayRoot').innerHTML=''},600)}}
+const OT=(fn,ms)=>ui.ovT.push(setTimeout(fn,ms));
+function startBreathing(){
+  closeSheet();overlayOpen(`<span class="eyebrow" style="color:#CDB9E8">60-second reset</span><div class="orb" id="orb"></div><h2 id="bt">Get comfortable</h2><p id="bs">Soften your shoulders. Unclench your jaw.</p>`);
+  const set=(t,s,sc,dur)=>{const o=$('#orb'),a=$('#bt'),b=$('#bs');if(!o)return;a.textContent=t;b.textContent=s;o.style.transition=`transform ${dur}s ease-in-out`;o.style.transform=`scale(${sc})`};
+  const cycle=i=>{
+    if(i>=6){S.resets.push({date:ds(),type:'breathing'});save();const a=$('#bt');if(a){set('Well done','Notice how you feel now.',1,2);$('#bs').insertAdjacentHTML('afterend','<button class="btn pri" data-a="ov-close" style="margin-top:6px">Return</button>')}return}
+    set('Breathe in','Slowly, through your nose',1.18,4);OT(()=>set('Breathe out','Long and slow, like a sigh',.78,6),4000);OT(()=>cycle(i+1),10000)};
+  OT(()=>cycle(0),2500);
+}
+const GR=[[5,'things you can see','Look around slowly and name five.'],[4,'things you can feel','Your feet on the floor, the chair, your clothes.'],[3,'things you can hear','Near or far. Let the sounds come to you.'],[2,'things you can smell','Or remember two scents you love.'],[1,'thing you can taste','A sip of water, or simply your mouth.']];
+function startGrounding(i=0){
+  closeSheet();
+  if(i>=GR.length){S.resets.push({date:ds(),type:'grounding'});save();overlayOpen(`<h2>You are here.</h2><p>You’re safe in this moment. Take one more slow breath.</p><button class="btn pri" data-a="ov-close">Return</button>`);return}
+  const [n,t,s]=GR[i];overlayOpen(`<span class="eyebrow" style="color:#CDB9E8">Grounding · ${i+1} of 5</span><div class="big-step">${n}</div><h2>${t}</h2><p>${s}</p><button class="btn pri" data-a="ground-next" data-i="${i+1}">${i===4?'Finish':'Next'}</button>`);
+}
+function showReminder(){
+  const q=S.quotes;if(!q.length){toast('Add a quote first');return}
+  let c;do{c=q[Math.floor(Math.random()*q.length)]}while(q.length>1&&c.id===ui.lastQ);ui.lastQ=c.id;
+  overlayOpen(`<span class="eyebrow" style="color:#CDB9E8">A reminder for you</span><p class="quote" style="font-size:30px;max-width:460px;color:#fff">“${esc(c.text)}”</p><p>— ${esc(c.author)}</p>
+   <div class="row" style="gap:10px"><button class="btn ghost" style="color:#fff;border-color:rgba(255,255,255,.3)" data-a="reminder">Another</button><button class="btn pri" data-a="ov-close">Thank you</button></div>`);
+}
+
+/* ---------- Focus timer engine ---------- */
+ui.timer={len:25,mode:'focus',left:25*60,running:false,end:0};
+function timerTick(){
+  const T=ui.timer;if(!T.running)return;
+  T.left=Math.max(0,Math.ceil((T.end-Date.now())/1000));
+  const d=$('#tdisp');if(d)d.textContent=`${pad(Math.floor(T.left/60))}:${pad(T.left%60)}`;
+  if(T.left<=0){
+    T.running=false;
+    if(T.mode==='focus'){S.focus.push({date:ds(),min:T.len});save();T.mode='break';T.left=5*60;toast('Lovely focus. Time for a gentle break.')}
+    else{T.mode='focus';T.left=T.len*60;toast('Break complete. Ready when you are.')}
+    refreshTimer();
+  }
+}
+function refreshTimer(){const e=$('#timerCard');if(e)e.outerHTML=timerCard()}
+
+/* ---------- 7. Events ---------- */
+function render(anim=false){
+  const y=window.scrollY;ui.anim=anim;
+  const v=$('#view');v.className=anim?'':'noanim';
+  v.innerHTML=({today:pageToday,plan:pagePlan,heal:pageHeal,grow:pageGrow,week:pageWeek,me:pageMe})[ui.page]();
+  $('#nav').innerHTML=[['today','Today'],['plan','Plan'],['heal','Heal'],['grow','Grow'],['week','Week']].map(([k,l])=>`<button class="${ui.page===k?'on':''}" data-a="go" data-p="${k}">${icon(k,23,1.4)}${l}</button>`).join('');
+  $('#fab').innerHTML=icon('plus',24,2);
+  animateIn();
+  if(!anim)window.scrollTo(0,y);
+  if(ui.fresh){const e=document.querySelector(`.chk[data-id="${ui.fresh}"]`);e&&e.classList.add('pop');ui.fresh=null}
+}
+function go(p){closeSheet();ui.page=p;render(true);window.scrollTo(0,0)}
+const re=()=>render(false);
+
+function syncTopFromTask(t){Object.values(S.top).forEach(a=>a.forEach(x=>{if(x.taskId===t.id)x.done=t.done}))}
+function checkChallenges(){
+  S.challenges.filter(c=>!c.done).forEach(c=>{if(challengeCount(c)>=c.days){c.done=true;c.doneAt=ds();confetti();toast(`${c.days}-day challenge complete. Beautifully done.`)}});
+}
+
+document.addEventListener('click',e=>{
+  const el=e.target.closest('[data-a]');if(!el)return;
+  const a=el.dataset.a,id=el.dataset.id,k=el.dataset.k;
+  if(el.tagName==='INPUT'||el.tagName==='TEXTAREA')return;
+  switch(a){
+  /* navigation */
+  case 'go':go(el.dataset.p);break;
+  case 'quick':sheetQuick();break;
+  case 'sheet-close':closeSheet();break;
+  case 'ov-close':overlayClose();break;
+  case 'plan-seg':ui.plan=k;render(true);break;
+  case 'grow-seg':ui.grow=k;render(true);break;
+  case 'range':ui.range=k;render(true);break;
+  /* quick actions */
+  case 'q-task':sheetTask();break;
+  case 'q-note':sheetNote();break;
+  case 'q-dump':closeSheet();ui.page='plan';ui.plan='dump';render(true);break;
+  case 'q-reset':startBreathing();break;
+  case 'q-ground':startGrounding();break;
+  case 'q-mood':sheetMood();break;
+  case 'q-journal':go('heal');break;
+  case 'edit-schedule':sheetSchedule();break;
+  /* tasks */
+  case 'task-toggle':{const t=S.tasks.find(x=>x.id===id);t.done=!t.done;t.doneAt=t.done?ds():null;syncTopFromTask(t);save();ui.fresh=id;if(t.done)toast('Done. That counts.');re();break}
+  case 'task-edit':sheetTask(id);break;
+  case 'task-save':{
+    const title=val('f_title');if(!title){toast('Give the task a name');return}
+    const o={title,cat:val('f_cat'),prio:val('f_prio'),due:val('f_due'),type:val('f_type')};
+    if(ui.edit.id)Object.assign(S.tasks.find(x=>x.id===ui.edit.id),o);else S.tasks.push({id:uid(),done:false,doneAt:null,created:ds(),...o});
+    if(ui.edit.dump)S.dumps=S.dumps.filter(d=>d.id!==ui.edit.dump);
+    save();closeSheet();re();break}
+  case 'task-del':S.tasks=S.tasks.filter(x=>x.id!==ui.edit.id);save();closeSheet();re();break;
+  case 'task-top':{const t=S.tasks.find(x=>x.id===ui.edit.id),slot=getTop().find(x=>!x.text);
+    if(!slot){toast('Your top 3 is full. Maybe that’s plenty.');return}slot.text=t.title;slot.taskId=t.id;slot.done=t.done;save();closeSheet();toast('Added to today’s priorities');if(ui.page==='today')re();break}
+  case 'tfilter':ui.taskFilter=k;re();break;
+  case 'day-pick':ui.selDay=ui.selDay===el.dataset.d?null:el.dataset.d;re();break;
+  case 'day-clear':ui.selDay=null;re();break;
+  case 'toggle-done':ui.showDone=!ui.showDone;re();break;
+  case 'timer-go':{const T=ui.timer;if(T.running){T.left=Math.max(0,Math.ceil((T.end-Date.now())/1000));T.running=false}else{T.running=true;T.end=Date.now()+T.left*1000}refreshTimer();break}
+  case 'timer-reset':{const T=ui.timer;T.running=false;T.mode='focus';T.left=T.len*60;refreshTimer();break}
+  case 'timer-len':{const T=ui.timer;T.len=+el.dataset.n;T.running=false;T.mode='focus';T.left=T.len*60;refreshTimer();break}
+  /* today: top 3 */
+  case 'top-toggle':{const x=getTop().find(z=>z.id===id);if(!x.text){toast('Write a priority first');return}x.done=!x.done;
+    if(x.taskId){const t=S.tasks.find(z=>z.id===x.taskId);if(t){t.done=x.done;t.doneAt=x.done?ds():null}}
+    save();ui.fresh=id;const all=getTop().every(z=>z.done&&z.text);if(x.done&&all){confetti(30);toast('All three done. Lovely.')}re();break}
+  /* notes & dump */
+  case 'note-edit':sheetNote(id);break;
+  case 'note-save':{const title=val('f_title');if(!title){toast('Give the note a title');return}
+    const o={title,body:val('f_body'),tags:val('f_tags').split(',').map(t=>t.trim().replace(/^#/,'').toLowerCase()).filter(Boolean),pinned:$('#f_pin').checked};
+    if(ui.edit.id)Object.assign(S.notes.find(x=>x.id===ui.edit.id),o);else S.notes.push({id:uid(),created:ds(),...o});
+    save();closeSheet();re();break}
+  case 'note-del':S.notes=S.notes.filter(x=>x.id!==ui.edit.id);save();closeSheet();re();break;
+  case 'ntag':ui.noteTag=ui.noteTag===k?'':k;re();break;
+  case 'dump-add':{const t=val('dumpText');if(!t){toast('Write whatever is on your mind');return}
+    t.split('\n').map(s=>s.trim()).filter(Boolean).forEach(s=>S.dumps.unshift({id:uid(),text:s,created:ds()}));save();toast('Let go.');re();break}
+  case 'dump-task':{const d=S.dumps.find(x=>x.id===id);sheetTask(null,{title:d.text,dump:id});break}
+  case 'dump-del':S.dumps=S.dumps.filter(x=>x.id!==id);save();re();break;
+  /* heal */
+  case 'mood-set':{const v=+el.dataset.v,m=S.moods.find(x=>x.date===ds());if(m)m.v=v;else S.moods.push({date:ds(),v,note:''});save();toast('Noted. Thank you for checking in.');re();break}
+  case 'mood-pick':ui.moodSel=+el.dataset.v;$$('.mood',$('#sheet')).forEach(b=>b.classList.toggle('on',+b.dataset.v===ui.moodSel));break;
+  case 'mood-save':{if(!ui.moodSel){toast('Choose how you feel');return}const note=val('f_note'),m=S.moods.find(x=>x.date===ds());
+    if(m){m.v=ui.moodSel;m.note=note}else S.moods.push({date:ds(),v:ui.moodSel,note});save();closeSheet();toast('Noted. Thank you for checking in.');re();break}
+  case 'shuffle-prompts':{ui.draft=ui.draft||{};const rest=PROMPT_POOL.slice().sort(()=>Math.random()-.5).slice(0,3);ui.prompts=rest;re();break}
+  case 'journal-save':{const ans={};ui.prompts.forEach(p=>{const v=(ui.draft||{})[p];if(v&&v.trim())ans[p]=v.trim()});
+    if(!Object.keys(ans).length){toast('Write a few words first');return}
+    S.journal.push({id:uid(),date:ds(),answers:ans});ui.draft={};save();toast('Saved. Thank you for listening to yourself.');re();break}
+  case 'journal-view':sheetJournal(id);break;
+  case 'journal-del':if(confirm('Delete this entry?')){S.journal=S.journal.filter(x=>x.id!==id);save();closeSheet();re()}break;
+  case 'ground-next':startGrounding(+el.dataset.i);break;
+  /* schedule */
+  case 'srow-add':$('#schRows').insertAdjacentHTML('beforeend',schRow({label:'',start:'09:00',end:'10:00'}));break;
+  case 'srow-del':el.closest('.srow').remove();break;
+  case 'sch-save':{const rows=$$('.srow').map(r=>({id:uid(),label:$('.sl',r).value.trim(),start:$('.ss',r).value,end:$('.se',r).value})).filter(r=>r.label&&r.start&&r.end&&toMin(r.start)<toMin(r.end));
+    S.schedule=rows;save();closeSheet();re();break}
+  /* goals */
+  case 'wiz-new':wizOpen();break;
+  case 'wiz-tpl':wizOpen(TEMPLATES[+el.dataset.i]);break;
+  case 'wiz-cat':ui.wiz.d.cat=k;wizRender();break;
+  case 'wiz-next':{wizCapture();const d=ui.wiz.d,s=ui.wiz.step;
+    if(s===1&&!d.cat){toast('Choose a category to continue');return}
+    if(s===3&&(!d.title||!d.target)){toast('Add a goal name and a measurable target');return}
+    ui.wiz.step++;wizRender();break}
+  case 'wiz-back':wizCapture();ui.wiz.step--;wizRender();break;
+  case 'wiz-madd':{const t=val('w_ms');if(!t)return;wizCapture();ui.wiz.d.ms.push({id:uid(),text:t,toTask:false});wizRender();break}
+  case 'wiz-mdel':wizCapture();ui.wiz.d.ms=ui.wiz.d.ms.filter(m=>m.id!==id);wizRender();break;
+  case 'wiz-mtask':{wizCapture();const m=ui.wiz.d.ms.find(x=>x.id===id);m.toTask=!m.toTask;wizRender();break}
+  case 'wiz-save':wizSave();break;
+  case 'goal-open':sheetGoal(id);break;
+  case 'ms-toggle':{const g=S.goals.find(x=>x.id===ui.edit.id),m=g.milestones.find(x=>x.id===id);m.done=!m.done;save();sheetGoal(g.id);re();break}
+  case 'ms-task':{const g=S.goals.find(x=>x.id===ui.edit.id),m=g.milestones.find(x=>x.id===id);S.tasks.push({id:uid(),title:m.text,cat:'Personal',prio:'later',due:'',type:'',done:false,doneAt:null,created:ds()});save();toast('Added to your tasks');break}
+  case 'gnote-add':{const t=val('f_jn');if(!t)return;const g=S.goals.find(x=>x.id===ui.edit.id);(g.notes=g.notes||[]).push({date:ds(),text:t});save();sheetGoal(g.id);break}
+  case 'goal-celebrate':{const g=S.goals.find(x=>x.id===ui.edit.id);g.celebrated=true;g.milestones.forEach(m=>m.done=true);save();closeSheet();confetti(70);toast('You did this. Take a moment to feel it.');re();break}
+  case 'goal-del':if(confirm('Delete this goal?')){S.goals=S.goals.filter(x=>x.id!==ui.edit.id);save();closeSheet();re()}break;
+  /* habits */
+  case 'habit-new':sheetHabit();break;
+  case 'habit-save':{const n=val('f_name');if(!n){toast('Name your habit');return}S.habits.push({id:uid(),name:n,log:{}});save();closeSheet();re();break}
+  case 'habit-day':{const h=S.habits.find(x=>x.id===id),d=el.dataset.d;if(h.log[d])delete h.log[d];else h.log[d]=true;save();checkChallenges();save();re();break}
+  case 'habit-del':if(confirm('Remove this habit?')){S.habits=S.habits.filter(x=>x.id!==id);S.challenges=S.challenges.filter(c=>c.habitId!==id);save();re()}break;
+  case 'chal-new':sheetChallenge(id);break;
+  case 'chal-start':{S.challenges.push({id:uid(),habitId:ui.edit.id,days:+el.dataset.n,start:ds(),done:false});save();closeSheet();toast('Challenge begun. Be kind to yourself along the way.');re();break}
+  /* reading / music */
+  case 'book-new':sheetBook();break;
+  case 'book-open':sheetBook(id);break;
+  case 'book-save':{
+    const pages=+val('f_pages')||0,read=clamp(+val('f_read')||0,0,pages||1e5);
+    if(ui.edit.id){const b=S.books.find(x=>x.id===ui.edit.id);const delta=read-b.read;if(delta>0)(b.log=b.log||[]).push({date:ds(),pages:delta});
+      b.pages=pages;b.read=read;const q=val('f_quote');if(q)b.quotes.push(q);
+      if(pages&&read>=pages&&!b.finished){b.finished=true;confetti(50);toast('Another book finished.')}}
+    else{const title=val('f_title');if(!title){toast('Add a title');return}S.books.push({id:uid(),title,author:val('f_author'),pages,read,finished:false,quotes:[],log:read?[{date:ds(),pages:read}]:[]})}
+    save();closeSheet();re();break}
+  case 'book-del':if(confirm('Remove this book?')){S.books=S.books.filter(x=>x.id!==ui.edit.id);save();closeSheet();re()}break;
+  case 'music-new':sheetMusic();break;
+  case 'music-save':{const t=val('f_title');if(!t){toast('Add a title');return}S.music.push({id:uid(),title:t,artist:val('f_artist'),mood:val('f_mood')});save();closeSheet();re();break}
+  case 'music-del':S.music=S.music.filter(x=>x.id!==id);save();re();break;
+  case 'mmood':ui.musicMood=k;re();break;
+  /* week */
+  case 'review-save':{S.reviews[ds(weekStart(new Date()))]={date:ds(),a:[0,1,2].map(i=>val('rv'+i))};save();toast('Review saved. Well done for pausing to reflect.');re();break}
+  /* me */
+  case 'reminder':showReminder();break;
+  case 'qcat':ui.quoteCat=k;re();break;
+  case 'quote-new':sheetQuote();break;
+  case 'quote-edit':sheetQuote(id);break;
+  case 'quote-fav':{const q=S.quotes.find(x=>x.id===id);q.fav=!q.fav;save();re();break}
+  case 'quote-save':{const text=val('f_text');if(!text){toast('Add the words');return}const o={text,author:val('f_author')||'Unknown',cat:val('f_cat')};
+    if(ui.edit.id)Object.assign(S.quotes.find(x=>x.id===ui.edit.id),o);else S.quotes.push({id:uid(),fav:false,custom:true,...o});save();closeSheet();re();break}
+  case 'quote-del':S.quotes=S.quotes.filter(x=>x.id!==ui.edit.id);save();closeSheet();re();break;
+  case 'identity-edit':sheetIdentity();break;
+  case 'identity-save':S.identity={...S.identity,values:val('f_values').split(',').map(s=>s.trim()).filter(Boolean),vision:val('f_vision'),affirmations:val('f_aff').split('\n').map(s=>s.trim()).filter(Boolean)};save();closeSheet();re();break;
+  case 'profile-edit':sheetProfile();break;
+  case 'profile-save':{const n=val('f_name');if(!n)return;S.profile={name:n,initials:(val('f_ini')||n[0]).slice(0,2).toUpperCase()};save();closeSheet();re();break}
+  case 'theme':S.theme=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=S.theme;save();re();break;
+  case 'export':{const b=new Blob([JSON.stringify(S,null,2)],{type:'application/json'}),u=URL.createObjectURL(b),l=document.createElement('a');l.href=u;l.download=`resiliente-backup-${ds()}.json`;l.click();setTimeout(()=>URL.revokeObjectURL(u),2000);toast('Backup downloaded');break}
+  case 'import':$('#importFile').click();break;
+  case 'clear-sample':if(confirm('Remove all sample data? Your own entries stay.')){clearSample();re();toast('Sample data cleared')}break;
+  case 'erase':if(confirm('Erase everything on this device? This cannot be undone.')){try{localStorage.removeItem(KEY)}catch(_){}S=defaults();location.reload()}break;
+  }
+});
+$('#sheetBg').addEventListener('click',e=>{if(e.target.id==='sheetBg')closeSheet()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSheet();overlayClose()}});
+
+/* input-type events (no full re-render, so typing is never interrupted) */
+document.addEventListener('input',e=>{
+  const t=e.target;
+  if(t.id==='energy'){const v=+t.value,[l,adv]=energyInfo(v);S.energy[ds()]={v};$('#evalue').textContent=v;$('#eadvice').textContent=adv;
+    const c=$$('.chip')[2];if(c)c.innerHTML=`Energy <b>${v}/10</b> · ${l}`;clearTimeout(ui.saveT);ui.saveT=setTimeout(save,350)}
+  if(t.id==='noteSearch'){ui.noteQ=t.value;let ns=S.notes.filter(n=>{const q=ui.noteQ.toLowerCase();return(!ui.noteTag||n.tags.includes(ui.noteTag))&&(!q||(n.title+' '+n.body+' '+n.tags.join(' ')).toLowerCase().includes(q))});
+    ns.sort((a,b)=>(b.pinned-a.pinned)||b.created.localeCompare(a.created));$('#noteList').innerHTML=notesList(ns)}
+  if(t.dataset.a==='jdraft'){ui.draft=ui.draft||{};ui.draft[ui.prompts[+t.dataset.i]]=t.value}
+});
+document.addEventListener('change',e=>{
+  const t=e.target;
+  if(t.dataset.a==='top-text'){const x=getTop().find(z=>z.id===t.dataset.id);if(x){x.text=t.value.trim();if(!x.text){x.done=false;delete x.taskId}save();const n=getTop().filter(z=>z.done&&z.text).length;const c=$('#topcount');if(c)c.textContent=n+'/3'}}
+});
+$('#importFile').addEventListener('change',e=>{
+  const f=e.target.files[0];if(!f)return;const r=new FileReader();
+  r.onload=()=>{try{const o=JSON.parse(r.result);if(!o||typeof o!=='object'||!Array.isArray(o.tasks)||!o.profile)throw 0;
+    if(confirm('Replace the data on this device with this backup?')){S=Object.assign(defaults(),o);S.identity=Object.assign(defaults().identity,o.identity||{});save();document.documentElement.dataset.theme=S.theme||'light';render(true);toast('Backup restored')}}
+    catch(_){toast('That file doesn’t look like a Résiliente backup')}e.target.value=''};
+  r.readAsText(f);
+});
+
+/* ---------- 8. Init ---------- */
+function onboard(){
+  const b=$('#onboard');b.classList.remove('hide');
+  b.innerHTML=`<div class="box enter"><div class="avatar" id="obAv" style="display:grid;place-items:center">R</div><h1>Résiliente</h1><p class="tg">Your cracks are part of your gold.</p>
+    ${fld('What should I call you?',inp('ob_name','','Your name'))}${fld('Initials for your avatar',inp('ob_ini','','e.g. A'))}
+    <label class="check-row"><input type="checkbox" id="ob_sample" checked>Start with a few sample entries (you can clear them anytime)</label>
+    <button class="btn pri block" id="obGo" style="margin-top:8px">Begin</button><p class="sub" style="margin-top:16px">Private by design. Everything stays on this device.</p></div>`;
+  const name=$('#ob_name'),ini=$('#ob_ini'),av=$('#obAv');let manual=false;
+  ini.addEventListener('input',()=>{manual=true;av.textContent=ini.value.toUpperCase()||'R'});
+  name.addEventListener('input',()=>{if(!manual){ini.value=(name.value.trim()[0]||'').toUpperCase();av.textContent=ini.value||'R'}});
+  $('#obGo').addEventListener('click',()=>{
+    const n=name.value.trim();if(!n){toast('Please tell me your name');name.focus();return}
+    S.profile={name:n,initials:(ini.value.trim()||n[0]).slice(0,2).toUpperCase()};
+    seedQuotes();S.schedule=defaultSchedule();if($('#ob_sample').checked)seedSample();
+    save();b.classList.add('hide');$('#nav').classList.remove('hide');$('#fab').classList.remove('hide');render(true);
+  });
+}
+function init(){
+  load();
+  document.documentElement.dataset.theme=S.theme||(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+  setTimeout(()=>{$('#splash').classList.add('out');setTimeout(()=>$('#splash').remove(),1000)},1700);
+  if(S.profile){$('#nav').classList.remove('hide');$('#fab').classList.remove('hide');render(true)}else onboard();
+  setInterval(timerTick,1000);
+  // refresh the "Right now" card each minute
+  setInterval(()=>{if(ui.page==='today'&&!$('#sheetBg.open')){const c=$('.card.dark');if(c){c.outerHTML=rightNowCard();animateIn()}}},60000);
+}
+init();
+// Offline install support (only on http/https, never on file://)
+if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}
+})();
+</script>
+</body>
+</html>
