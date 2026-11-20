@@ -254,6 +254,10 @@ input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;bac
 .onboard .avatar{margin:0 auto 20px;width:72px;height:72px;font-size:30px}
 .onboard .field{text-align:left}
 .hide{display:none!important}
+/* money */
+.amt{font-variant-numeric:tabular-nums;font-weight:500;white-space:nowrap}
+.amt.in{color:#2f7a5c}[data-theme=dark] .amt.in{color:#7fcfa9}
+.trow .amt{flex:none;padding-top:2px}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}}
 </style>
 </head>
@@ -305,6 +309,10 @@ const GOAL_CATS=['Career / Finance','Health','Personal Finance','Self-Healing','
 const TASK_TYPES=['Closing','Report','Reconciliation','Audit','Payment','Other'];
 const PRIO={urgent:{label:'Urgent',cls:'pk',rank:0},important:{label:'Important',cls:'pu',rank:1},later:{label:'Can wait',cls:'mn',rank:2}};
 const MUSIC_MOODS=['Focus','Calm','Workout Energy'];
+// Money: simple daily log (categories + currency formats)
+const MONEY_OUT=['Food','Transport','Bills','Shopping','Health','Fun','Savings','Other'];
+const MONEY_IN=['Salary','Side income','Gift','Refund','Other'];
+const CURS={IDR:{loc:'id-ID',d:0},USD:{loc:'en-US',d:2},EUR:{loc:'de-DE',d:2},SGD:{loc:'en-SG',d:2},GBP:{loc:'en-GB',d:2},MYR:{loc:'ms-MY',d:2}};
 const QUOTE_CATS=['Identity','Purpose','Strength','Healing','Focus & Work','Calm','Affirmation'];
 const DEFAULT_PROMPTS=['How am I feeling today?','What can I let go of?','What am I grateful for?'];
 const PROMPT_POOL=[...DEFAULT_PROMPTS,'What did my body need today?','What is one thing I handled better than I expected?','What am I carrying that isn’t mine?','Where did I feel most like myself?','What would I say to a friend who felt the way I do?','What boundary would protect my peace this week?','What small joy did I notice?','What is asking for my attention, gently?'];
@@ -376,7 +384,7 @@ const TEMPLATES=[
 
 const defaults=()=>({v:1,profile:null,theme:null,energy:{},schedule:[],top:{},tasks:[],notes:[],dumps:[],journal:[],moods:[],
   goals:[],habits:[],challenges:[],books:[],music:[],quotes:[],identity:{values:[],vision:'',affirmations:[],sample:false},
-  focus:[],resets:[],reviews:{}});
+  focus:[],resets:[],reviews:{},money:{cur:'IDR',limit:0,entries:[]}});
 
 let S=defaults();
 // UI state (not persisted)
@@ -444,10 +452,14 @@ function seedSample(){
   S.identity={values:['Calm','Integrity','Growth','Depth'],vision:'A life that feels spacious: meaningful work, honest rest, and a heart that heals without hurry.',
     affirmations:['I can be tender and strong at the same time.','I am healing at the pace my heart can trust.'],sample:true};
   S.schedule=defaultSchedule();
+  const ME=(off,type,amt,cat,note)=>({id:uid(),date:dsOff(off),type,amt,cat,note,t:Date.now()+off,sample:true});
+  S.money.entries=S.money.entries.concat([ME(0,'out',45000,'Food','Lunch'),ME(0,'out',22000,'Transport','Ride to the office'),ME(-1,'out',180000,'Food','Groceries'),
+    ME(-1,'out',55000,'Fun','Coffee with a friend'),ME(-2,'in',500000,'Side income','Freelance work'),ME(-3,'out',120000,'Bills','Internet')]);
 }
 function clearSample(){
   ['tasks','notes','dumps','journal','moods','habits','focus','books','music','goals'].forEach(k=>S[k]=S[k].filter(x=>!x.sample));
   Object.keys(S.energy).forEach(d=>{if(S.energy[d].sample)delete S.energy[d]});
+  S.money.entries=S.money.entries.filter(x=>!x.sample);
   Object.keys(S.top).forEach(d=>{S.top[d]=S.top[d].filter(x=>!x.sample)});
   const ids=new Set(S.habits.map(h=>h.id));S.challenges=S.challenges.filter(c=>ids.has(c.habitId));
   if(S.identity.sample)S.identity={values:[],vision:'',affirmations:[],sample:false};
@@ -460,7 +472,7 @@ function activityDates(){
   S.tasks.forEach(t=>t.done&&t.doneAt&&s.add(t.doneAt));
   S.habits.forEach(h=>Object.keys(h.log||{}).forEach(d=>h.log[d]&&s.add(d)));
   S.journal.forEach(j=>s.add(j.date));S.moods.forEach(m=>s.add(m.date));S.focus.forEach(f=>s.add(f.date));
-  S.resets.forEach(r=>s.add(r.date));S.books.forEach(b=>(b.log||[]).forEach(l=>s.add(l.date)));
+  S.resets.forEach(r=>s.add(r.date));S.money.entries.forEach(e=>s.add(e.date));S.books.forEach(b=>(b.log||[]).forEach(l=>s.add(l.date)));
   return s;
 }
 function streakOf(has){let d=new Date();if(!has(ds(d)))d=addDays(d,-1);let n=0;while(has(ds(d))){n++;d=addDays(d,-1)}return n}
@@ -517,7 +529,8 @@ const IC={
  back:'<path d="M19 12H5M11 6l-6 6 6 6"/>', cal:'<rect x="4" y="5" width="16" height="15" rx="4"/><path d="M4 10h16M9 3v4M15 3v4"/>',
  flag:'<path d="M6 21V4M6 5h11l-2 4 2 4H6"/>', dots:'<circle cx="6" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="18" cy="12" r="1"/>',
  gold:'<path d="M12 3l2 5 5 1-4 3.5 1 5.5-4-2.8L8 18l1-5.5L5 9l5-1z"/>', clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
- wave:'<path d="M3 12c2-4 4-4 6 0s4 4 6 0 4-4 6 0"/>'
+ wave:'<path d="M3 12c2-4 4-4 6 0s4 4 6 0 4-4 6 0"/>',
+ coin:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7v10M14.6 9.6c-.5-.8-1.4-1.2-2.6-1.2-1.4 0-2.5.7-2.5 1.8 0 2.4 5 1.2 5 3.7 0 1.1-1.1 1.9-2.5 1.9-1.2 0-2.1-.4-2.6-1.2"/>'
 };
 const icon=(n,s=22,sw=1.5)=>`<svg class="ic" width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[n]||''}</svg>`;
 
@@ -636,7 +649,7 @@ function timerCard(){
     <div class="tdisp" id="tdisp">${pad(m)}:${pad(s)}</div>
     <div class="row"><button class="btn pri" data-a="timer-go">${icon(T.running?'pause':'play',16,2)}${T.running?'Pause':'Start'}</button>
     <button class="btn ghost" data-a="timer-reset">${icon('reset',16,2)}Reset</button></div>
-    <p class="sub" style="margin-top:12px">${T.mode==='focus'?'One thing at a time. A short break will remind you when it’s time.':'Stand up, drink water, look out of a window.'}</p></section>`;
+    ${focusMusic()}<p class="sub" style="margin-top:12px">${T.mode==='focus'?'One thing at a time. A short break will remind you when it’s time.':'Stand up, drink water, look out of a window.'}</p></section>`;
 }
 function taskRow(t){
   const late=!t.done&&t.due&&diffDays(t.due)<0,p=PRIO[t.prio]||PRIO.important;
@@ -689,9 +702,83 @@ function plan_dump(){
     <section class="card"><h3>Waiting to be sorted</h3>${S.dumps.length?S.dumps.map(d=>`<div class="trow"><div class="tmain" style="cursor:default"><div class="ttl">${esc(d.text)}</div></div>
       <button class="btn soft sm" data-a="dump-task" data-id="${d.id}">${icon('arrow',14,2)} Task</button><button class="xbtn" data-a="dump-del" data-id="${d.id}" aria-label="Release">${icon('x',14,2)}</button></div>`).join(''):empty('A clear mind','Nothing waiting here.')}</section>`;
 }
+/* ---------- Money: simple daily report ---------- */
+const money=n=>{const c=CURS[S.money.cur]||CURS.IDR,cur=CURS[S.money.cur]?S.money.cur:'IDR';
+  try{return new Intl.NumberFormat(c.loc,{style:'currency',currency:cur,minimumFractionDigits:c.d,maximumFractionDigits:c.d}).format(n)}catch(e){return String(n)}};
+const TAGS5=['pk','pu','mn','sk','pc'];
+const tagFor=c=>TAGS5[[...String(c)].reduce((a,ch)=>a+ch.charCodeAt(0),0)%5];
+function barChart(vals,labels){
+  const W=320,H=130,L=6,R=6,T=14,B=22,n=vals.length,mx=Math.max(...vals,1),bw=(W-L-R)/n;
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Spending over the last 7 days">`+vals.map((v,i)=>{
+    const h=Math.max((H-T-B)*v/mx,v?3:1.5),x=L+i*bw+bw*.2,w=bw*.6;
+    return `<rect x="${x}" y="${H-B-h}" width="${w}" height="${h}" rx="6" fill="${i===n-1?'var(--p2)':'var(--p1)'}" opacity="${v?1:.35}"/><text x="${x+w/2}" y="${H-6}" text-anchor="middle">${labels[i]}</text>`}).join('')+`</svg>`;
+}
+function plan_money(){
+  const M=S.money,day=ui.moneyDay||(ui.moneyDay=ds()),isToday=day===ds();
+  const tot=(list,t)=>sum(list.filter(e=>e.type===t).map(e=>e.amt));
+  const es=M.entries.filter(e=>e.date===day).sort((a,b)=>(b.t||0)-(a.t||0)),inc=tot(es,'in'),out=tot(es,'out');
+  const cats={};es.filter(e=>e.type==='out').forEach(e=>cats[e.cat]=(cats[e.cat]||0)+e.amt);
+  const catRows=Object.entries(cats).sort((a,b)=>b[1]-a[1]);
+  const d7=dayRange(addDays(fromDs(day),-6),fromDs(day)),sp=d7.map(d=>tot(M.entries.filter(e=>e.date===d),'out'));
+  const mon=M.entries.filter(e=>e.date.slice(0,7)===day.slice(0,7)),lim=+M.limit||0;
+  let note;
+  if(!es.length)note='A quiet day for your wallet. Log anything you’d like to remember.';
+  else if(lim>0)note=out<=lim?`Within your daily limit, with ${money(lim-out)} left.`:'A little over your limit today. It happens. Tomorrow is a fresh page.';
+  else note='These numbers are information, not a verdict.';
+  return `<section class="card gold"><div class="row sp"><button class="xbtn" data-a="mday" data-n="-1" aria-label="Previous day">${icon('back',16,2)}</button>
+    <div style="text-align:center"><span class="eyebrow">${isToday?'Today':'Daily report'}</span><div style="font-family:var(--serif);font-size:20px">${fmtLong(fromDs(day))}</div></div>
+    <button class="xbtn" data-a="mday" data-n="1" aria-label="Next day" ${isToday?'disabled style="opacity:.35"':''}>${icon('arrow',16,2)}</button></div>
+    <div style="text-align:center;margin:20px 0 6px"><span class="eyebrow">Spent</span><div class="bigval" style="margin-top:6px;font-size:38px">${money(out)}</div></div>
+    <div class="row" style="justify-content:center;gap:22px;margin:10px 0 4px;flex-wrap:wrap"><span class="sub">Income <b class="amt in">${money(inc)}</b></span><span class="sub">Net <b class="amt">${money(inc-out)}</b></span></div>
+    ${lim>0?`<div style="margin-top:14px">${bar(out/lim*100)}</div>`:''}
+    <p class="sub" style="text-align:center;margin-top:12px">${note}</p>
+    ${isToday?'':`<div style="text-align:center;margin-top:10px"><button class="chip" data-a="mtoday">Back to today</button></div>`}</section>
+
+  <section class="card"><div class="row sp"><h3 style="margin:0">Entries</h3><div class="row" style="gap:8px"><button class="btn pri sm" data-a="m-new" data-t="out">+ Spent</button><button class="btn soft sm" data-a="m-new" data-t="in">+ Income</button></div></div>
+    <div style="margin-top:8px">${es.length?es.map(e=>`<div class="trow"><div class="tmain" data-a="m-edit" data-id="${e.id}"><div class="ttl">${esc(e.note||e.cat)}</div><div class="tmeta"><span class="tag ${tagFor(e.cat)}">${esc(e.cat)}</span></div></div>
+      <div class="amt ${e.type}">${e.type==='in'?'+':'−'}${money(e.amt)}</div></div>`).join(''):empty('Nothing logged','Add what you spend or receive on this day.')}</div></section>
+
+  ${catRows.length?`<section class="card"><span class="eyebrow">Where it went</span><div style="margin-top:12px">${catRows.map(([c,v])=>`<div style="margin-bottom:14px"><div class="row sp" style="margin-bottom:6px"><span>${esc(c)}</span><span class="amt sub">${money(v)}</span></div>${bar(out?v/out*100:0)}</div>`).join('')}</div></section>`:''}
+
+  <section class="card"><span class="eyebrow">Last 7 days</span><h3 style="margin:4px 0 8px">Spending rhythm</h3>${barChart(sp,d7.map(d=>wd(fromDs(d))[0]))}
+    <p class="sub">Total · <b class="amt">${money(sum(sp))}</b></p></section>
+
+  <section class="card"><span class="eyebrow">${fromDs(day).toLocaleDateString('en-GB',{month:'long',year:'numeric'})}</span><h3 style="margin:4px 0 12px">This month</h3>
+    <div class="grid3">${[[tot(mon,'out'),'spent'],[tot(mon,'in'),'income'],[tot(mon,'in')-tot(mon,'out'),'net']].map(([n,l])=>`<div style="background:var(--soft);border-radius:18px;padding:14px 6px;text-align:center"><b class="amt" style="font-family:var(--serif);font-size:17px;display:block">${money(n)}</b><span class="sub" style="font-size:11px">${l}</span></div>`).join('')}</div>
+    <div class="row" style="gap:10px;margin-top:16px;flex-wrap:wrap"><button class="btn soft sm" data-a="m-settings">Currency & limit</button><button class="btn ghost sm" data-a="m-csv">Export CSV</button></div></section>`;
+}
+function sheetMoney(id,type){
+  const e=id?S.money.entries.find(x=>x.id===id):null,t=e?e.type:type,cats=t==='out'?MONEY_OUT:MONEY_IN;
+  const v=e||{amt:'',cat:cats[0],note:'',date:ui.moneyDay||ds()};ui.edit={kind:'money',id,type:t};
+  openSheet(e?'Edit entry':t==='out'?'Log spending':'Log income',
+    fld(`Amount (${S.money.cur})`,`<input type="number" id="f_amt" inputmode="decimal" step="any" min="0" value="${esc(v.amt)}" placeholder="0">`)+
+    `<div class="grid2">${fld('Category',sel('f_cat',cats.includes(v.cat)?cats:[...cats,v.cat],v.cat))}${fld('Date',inp('f_date',v.date,'','date'))}</div>`+
+    fld('Note (optional)',inp('f_note',v.note||'','e.g. Lunch with colleagues'))+
+    `<div class="row" style="gap:10px"><button class="btn pri" data-a="m-save">Save</button>${e?'<button class="btn danger" data-a="m-del">Delete</button>':''}</div>`);
+}
+function sheetMoneySettings(){
+  openSheet('Money settings',fld('Currency',sel('f_cur',Object.keys(CURS),S.money.cur))+
+    fld('Daily spending limit (optional, 0 = none)',`<input type="number" id="f_limit" inputmode="decimal" step="any" min="0" value="${+S.money.limit||0}">`)+
+    `<p class="sub" style="margin-bottom:14px">A limit is a gentle guide, never a judgment.</p><button class="btn pri block" data-a="m-settings-save">Save</button>`);
+}
+
+/* ---------- Spotify helpers ---------- */
+// Returns a clean https Spotify URL, '' for empty input, or null when the link isn't a Spotify link.
+function cleanSpotify(u){
+  u=(u||'').trim();if(!u)return '';
+  const m=u.match(/^spotify:(track|album|playlist|artist|episode|show):([A-Za-z0-9]+)$/);
+  if(m)return `https://open.spotify.com/${m[1]}/${m[2]}`;
+  if(!/^[a-z]+:/i.test(u))u='https://'+u;
+  try{const x=new URL(u);if(x.protocol==='https:'&&/^(open\.spotify\.com|spotify\.link|spotify\.app\.link)$/.test(x.hostname))return x.href}catch(_){}
+  return null;
+}
+const spotifyHref=m=>m.url||('https://open.spotify.com/search/'+encodeURIComponent((m.title+' '+(m.artist||'')).trim()));
+function focusMusic(){const m=S.music.find(x=>x.mood==='Focus'&&x.url);
+  return m?`<a class="chip" style="display:inline-block;margin-top:12px;text-decoration:none" href="${esc(m.url)}" target="_blank" rel="noopener noreferrer">♪ Focus music · ${esc(m.title)}</a>`:''}
+
 function pagePlan(){
-  return pageTitle('Plan','Gentle structure for the busy days')+seg([['tasks','Tasks'],['notes','Notes'],['dump','Brain Dump']],ui.plan,'plan-seg')+
-    `<div class="enter">${ui.plan==='tasks'?plan_tasks():ui.plan==='notes'?plan_notes():plan_dump()}</div>`;
+  return pageTitle('Plan','Gentle structure for the busy days')+seg([['tasks','Tasks'],['notes','Notes'],['dump','Brain Dump'],['money','Money']],ui.plan,'plan-seg')+
+    `<div class="enter">${ui.plan==='tasks'?plan_tasks():ui.plan==='notes'?plan_notes():ui.plan==='money'?plan_money():plan_dump()}</div>`;
 }
 
 /* ---------- 4c. Heal ---------- */
@@ -765,8 +852,9 @@ function grow_music(){
   const l=S.music.filter(m=>ui.musicMood==='All'||m.mood===ui.musicMood);
   return `<section class="card"><div class="row sp"><div><span class="eyebrow">Music notes</span><h2 style="margin-bottom:0">Sound for the moment</h2></div><button class="btn soft sm" data-a="music-new">${icon('plus',15,2)} Add</button></div>
     <div class="fchips" style="margin-top:14px">${['All',...MUSIC_MOODS].map(m=>`<button class="chip ${ui.musicMood===m?'on':''}" data-a="mmood" data-k="${m}">${m}</button>`).join('')}</div>
-    ${l.length?l.map(m=>`<div class="trow"><div class="tmain" style="cursor:default"><div class="ttl">${esc(m.title)}</div><div class="tmeta"><span class="sub">${esc(m.artist||'')}</span><span class="tag ${m.mood==='Calm'?'sk':m.mood==='Focus'?'pu':'pk'}">${m.mood}</span></div></div>
-      <button class="xbtn" data-a="music-del" data-id="${m.id}" aria-label="Remove">${icon('x',14,2)}</button></div>`).join(''):empty('Nothing here yet','Save songs for focus, calm, or movement.')}</section>`;
+    ${l.length?l.map(m=>`<div class="trow"><div class="tmain" data-a="music-edit" data-id="${m.id}"><div class="ttl">${esc(m.title)}</div><div class="tmeta"><span class="sub">${esc(m.artist||'')}</span><span class="tag ${m.mood==='Calm'?'sk':m.mood==='Focus'?'pu':'pk'}">${m.mood}</span></div></div>
+      <a class="btn ${m.url?'pri':'soft'} sm" style="text-decoration:none;flex:none" href="${esc(spotifyHref(m))}" target="_blank" rel="noopener noreferrer">${icon('play',13,2)} ${m.url?'Play':'Find'}</a></div>`).join(''):empty('Nothing here yet','Save songs for focus, calm, or movement.')}
+    <p class="sub" style="margin-top:14px">“Play” opens your saved Spotify link (in the Spotify app if you have it). “Find” searches Spotify for the song.</p></section>`;
 }
 function pageGrow(){
   return pageTitle('Grow','Slow, steady, and yours')+seg([['goals','Goals'],['habits','Habits'],['reading','Reading'],['music','Music']],ui.grow,'grow-seg')+
@@ -780,7 +868,8 @@ function stats(days){
   const hab=S.habits.map(h=>({name:h.name,n:days.filter(d=>h.log[d]).length,streak:habitStreak(h)}));
   return {done,total:done+open,hab,checkins:sum(hab.map(h=>h.n)),focus:sum(S.focus.filter(f=>set.has(f.date)).map(f=>f.min)),
     pages:sum(S.books.flatMap(b=>(b.log||[]).filter(l=>set.has(l.date)).map(l=>l.pages))),
-    journals:S.journal.filter(j=>set.has(j.date)).length,notes:S.notes.filter(n=>set.has(n.created)).length,resets:S.resets.filter(r=>set.has(r.date)).length};
+    journals:S.journal.filter(j=>set.has(j.date)).length,notes:S.notes.filter(n=>set.has(n.created)).length,resets:S.resets.filter(r=>set.has(r.date)).length,
+    mIn:sum(S.money.entries.filter(e=>e.type==='in'&&set.has(e.date)).map(e=>e.amt)),mOut:sum(S.money.entries.filter(e=>e.type==='out'&&set.has(e.date)).map(e=>e.amt))};
 }
 function insights(){
   const wk=stats(dayRange(weekStart(new Date()),new Date())),out=[];
@@ -814,6 +903,8 @@ function pageWeek(){
   <section class="card"><span class="eyebrow">Habits</span><h3 style="margin:4px 0 12px">Consistency</h3>
     ${st.hab.length?st.hab.map(h=>`<div style="margin-bottom:14px"><div class="row sp" style="margin-bottom:6px"><span>${esc(h.name)}</span><span class="sub">${h.n}/${days.length} days · streak ${h.streak}</span></div>${bar(h.n/days.length*100)}</div>`).join(''):empty('No habits yet')}</section>
 
+  ${S.money.entries.length?`<section class="card"><span class="eyebrow">Money</span><h3 style="margin:4px 0 12px">Income & spending</h3>
+    <div class="grid3">${[[st.mOut,'spent'],[st.mIn,'income'],[st.mIn-st.mOut,'net']].map(([n,l])=>`<div style="background:var(--soft);border-radius:18px;padding:14px 6px;text-align:center"><b class="amt" style="font-family:var(--serif);font-size:17px;display:block">${money(n)}</b><span class="sub" style="font-size:11px">${l}</span></div>`).join('')}</div></section>`:''}
   <section class="card"><span class="eyebrow">Mood & energy</span><div style="margin-top:10px">${moodChartHtml(r==='month'?new Date().getDate():7)}</div></section>
 
   <section class="card gold"><span class="eyebrow">A gentle note</span>${insights().map(t=>`<p class="quote" style="font-size:21px;margin-top:12px">${esc(t)}</p>`).join('')}</section>
@@ -880,7 +971,7 @@ function confetti(n=46){const cols=['#C9B6E4','#F8C8DC','#D9B77A','#CBEBDD','#FB
     e.style.animationDuration=(1.8+Math.random()*1.6)+'s';e.style.animationDelay=Math.random()*.4+'s';document.body.appendChild(e);setTimeout(()=>e.remove(),4200)}}
 
 function sheetQuick(){
-  openSheet('Quick actions',`<div class="qgrid">${[['task','plus','Task'],['note','note','Note'],['dump','arrow','Brain dump'],['reset','wind','Stress Reset'],['mood','smile','Mood Check-in'],['journal','heal','Journal']]
+  openSheet('Quick actions',`<div class="qgrid">${[['task','plus','Task'],['note','note','Note'],['dump','arrow','Brain dump'],['reset','wind','Stress Reset'],['mood','smile','Mood Check-in'],['journal','heal','Journal'],['spent','coin','Spent'],['income','plus','Income']]
     .map(([a,i,l])=>`<button class="qbtn" data-a="q-${a}">${icon(i,22)}${l}</button>`).join('')}</div>`);
 }
 function sheetTask(id,pre={}){
@@ -936,7 +1027,13 @@ function sheetBook(id){
     ${b?`${fld('Add a favorite quote',`<textarea id="f_quote" placeholder="A line worth keeping…"></textarea>`)}${b.quotes.map(q=>`<p class="quote" style="font-size:18px;margin-bottom:10px">“${esc(q)}”</p>`).join('')}`:''}
     <div class="row" style="gap:10px"><button class="btn pri" data-a="book-save">Save</button>${b?'<button class="btn danger" data-a="book-del">Remove</button>':''}</div>`);
 }
-function sheetMusic(){openSheet('Add music',fld('Song or playlist',inp('f_title',''))+fld('Artist',inp('f_artist',''))+fld('For which mood?',sel('f_mood',MUSIC_MOODS,'Calm'))+`<button class="btn pri block" data-a="music-save">Save</button>`)}
+function sheetMusic(id){
+  const m=id?S.music.find(x=>x.id===id):null,v=m||{title:'',artist:'',mood:'Calm',url:''};ui.edit={kind:'music',id};
+  openSheet(m?'Edit music':'Add music',fld('Song or playlist',inp('f_title',v.title))+fld('Artist',inp('f_artist',v.artist||''))+fld('For which mood?',sel('f_mood',MUSIC_MOODS,v.mood))+
+    fld('Spotify link (optional)',inp('f_url',v.url||'','Paste a Spotify link'))+
+    `<div class="tip"><b>How to get the link:</b> in Spotify, open the song or playlist, tap ⋯ (or Share), then Copy link. Without a link, “Find” opens a Spotify search.</div>
+     <div class="row" style="gap:10px"><button class="btn pri" data-a="music-save">Save</button>${m?'<button class="btn danger" data-a="music-del-sheet">Delete</button>':''}</div>`);
+}
 function sheetJournal(id){
   const j=S.journal.find(x=>x.id===id);
   openSheet(fromDs(j.date).toLocaleDateString('en-GB',{day:'numeric',month:'long'}),Object.entries(j.answers).filter(([,a])=>a).map(([q,a])=>`<h3>${esc(q)}</h3><p style="margin-bottom:16px;white-space:pre-wrap">${esc(a)}</p>`).join('')+`<button class="btn danger sm" data-a="journal-del" data-id="${id}">Delete entry</button>`);
@@ -1166,11 +1263,35 @@ document.addEventListener('click',e=>{
     save();closeSheet();re();break}
   case 'book-del':if(confirm('Remove this book?')){S.books=S.books.filter(x=>x.id!==ui.edit.id);save();closeSheet();re()}break;
   case 'music-new':sheetMusic();break;
-  case 'music-save':{const t=val('f_title');if(!t){toast('Add a title');return}S.music.push({id:uid(),title:t,artist:val('f_artist'),mood:val('f_mood')});save();closeSheet();re();break}
+  case 'music-edit':sheetMusic(id);break;
+  case 'music-del-sheet':S.music=S.music.filter(x=>x.id!==ui.edit.id);save();closeSheet();re();break;
+  case 'music-save':{const t=val('f_title');if(!t){toast('Add a title');return}
+    const url=cleanSpotify(val('f_url'));if(url===null){toast('Please paste a Spotify link (open.spotify.com…)');return}
+    const o={title:t,artist:val('f_artist'),mood:val('f_mood'),url};
+    if(ui.edit&&ui.edit.id)Object.assign(S.music.find(x=>x.id===ui.edit.id),o);else S.music.push({id:uid(),...o});
+    save();closeSheet();re();break}
   case 'music-del':S.music=S.music.filter(x=>x.id!==id);save();re();break;
   case 'mmood':ui.musicMood=k;re();break;
   /* week */
   case 'review-save':{S.reviews[ds(weekStart(new Date()))]={date:ds(),a:[0,1,2].map(i=>val('rv'+i))};save();toast('Review saved. Well done for pausing to reflect.');re();break}
+  /* money */
+  case 'q-spent':closeSheet();ui.page='plan';ui.plan='money';render(true);sheetMoney(null,'out');break;
+  case 'q-income':closeSheet();ui.page='plan';ui.plan='money';render(true);sheetMoney(null,'in');break;
+  case 'm-new':sheetMoney(null,el.dataset.t);break;
+  case 'm-edit':sheetMoney(id);break;
+  case 'm-save':{const amt=parseFloat(val('f_amt'));if(!(amt>0)){toast('Enter an amount');return}
+    const o={amt,cat:val('f_cat'),note:val('f_note'),date:val('f_date')||ds()};
+    if(ui.edit.id)Object.assign(S.money.entries.find(x=>x.id===ui.edit.id),o);else S.money.entries.push({id:uid(),type:ui.edit.type,t:Date.now(),...o});
+    ui.moneyDay=o.date>ds()?ds():o.date;save();closeSheet();re();break}
+  case 'm-del':S.money.entries=S.money.entries.filter(x=>x.id!==ui.edit.id);save();closeSheet();re();break;
+  case 'mday':{const n=addDays(fromDs(ui.moneyDay||ds()),+el.dataset.n);ui.moneyDay=ds(n)>ds()?ds():ds(n);re();break}
+  case 'mtoday':ui.moneyDay=ds();re();break;
+  case 'm-settings':sheetMoneySettings();break;
+  case 'm-settings-save':S.money.cur=val('f_cur')||'IDR';S.money.limit=Math.max(0,parseFloat(val('f_limit'))||0);save();closeSheet();re();break;
+  case 'm-csv':{const safe=c=>typeof c==='string'&&/^[=+\-@\t\r]/.test(c)?"'"+c:c;
+    const rows=[['Date','Type','Category','Note','Amount']].concat(S.money.entries.slice().sort((a,b)=>a.date.localeCompare(b.date)).map(e=>[e.date,e.type==='in'?'Income':'Spent',e.cat,e.note||'',e.amt]));
+    const csv=rows.map(r=>r.map(c=>`"${String(safe(c)).replace(/"/g,'""')}"`).join(',')).join('\n');
+    const b=new Blob(['﻿'+csv],{type:'text/csv'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=`resiliente-money-${ds()}.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(u),2000);toast('CSV downloaded');break}
   /* me */
   case 'reminder':showReminder();break;
   case 'qcat':ui.quoteCat=k;re();break;
